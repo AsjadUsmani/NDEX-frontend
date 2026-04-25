@@ -1,0 +1,10 @@
+:root {
+  --ndex-bg:            #0d1117;
+  --ndex-surface:       #161b22;
+  --ndex-card:          #1a2230;
+  --ndex-text:          #e6edf3;
+  --ndex-muted:         #8d96a0;
+  --ndex-accent:        #00A19B;
+  --ndex-accent-strong: #E4DD3B;
+  --ndex-border:        rgba(0, 161, 155, 0.18);
+}
