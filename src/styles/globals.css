@@ -59,8 +59,8 @@
   --radius-xl:  20px;
 
   /* ── Fonts ── */
-  --font-display: 'Syne', 'Space Grotesk', sans-serif;
-  --font-body:    'Inter', 'Space Grotesk', sans-serif;
+  --font-display: 'Syne', 'IBM Plex Sans', sans-serif;
+  --font-body:    'Inter', 'IBM Plex Sans', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 }
 

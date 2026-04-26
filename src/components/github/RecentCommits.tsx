@@ -26,17 +26,17 @@ export default function RecentCommits({ commits }: RecentCommitsProps) {
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: 20,
       }}
     >
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-2)', marginBottom: 12 }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, color: 'var(--text-2)', marginBottom: 12 }}>
         Recent Commits
       </div>
 
       {visibleCommits.length === 0 ? (
-        <div style={{ color: 'var(--text-3)', fontSize: 13, fontFamily: 'var(--font-body)', padding: '12px 0' }}>
+        <div style={{ color: 'var(--text-3)', fontSize: 13, fontFamily: 'var(--font-body)', padding: '9px 0' }}>
           Fetch commits to see history
         </div>
       ) : (
@@ -51,7 +51,7 @@ export default function RecentCommits({ commits }: RecentCommitsProps) {
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: 12,
-                  padding: '12px 0',
+                  padding: '9px 0',
                   borderBottom: index === visibleCommits.length - 1 ? 'none' : '1px solid var(--border-1)',
                 }}
               >
@@ -63,7 +63,7 @@ export default function RecentCommits({ commits }: RecentCommitsProps) {
                     display: 'grid',
                     placeItems: 'center',
                     color: 'var(--text-1)',
-                    fontSize: 11,
+                    fontSize: 10,
                     fontFamily: 'var(--font-mono)',
                     background: getAvatarStyle(authorName),
                     flex: '0 0 auto',
@@ -73,7 +73,7 @@ export default function RecentCommits({ commits }: RecentCommitsProps) {
                 </div>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ color: 'var(--text-1)', fontSize: 14, fontWeight: 500, marginBottom: 4 }}>
+                  <div style={{ color: 'var(--text-1)', fontSize: 13, fontWeight: 500, marginBottom: 4 }}>
                     {message}
                   </div>
                   <div style={{ color: 'var(--text-3)', fontSize: 12 }}>
@@ -85,17 +85,17 @@ export default function RecentCommits({ commits }: RecentCommitsProps) {
                   <span
                     style={{
                       fontFamily: 'var(--font-mono)',
-                      fontSize: 11,
+                      fontSize: 10,
                       background: 'var(--bg-surface)',
                       color: 'var(--text-3)',
-                      padding: '2px 8px',
+                      padding: '2px 6px',
                       borderRadius: 4,
-                      border: '1px solid var(--border-1)',
+                      border: '0.5px solid var(--border-1)',
                     }}
                   >
                     {commit.shortSha}
                   </span>
-                  <div style={{ display: 'flex', gap: 8, fontSize: 12, fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ display: 'flex', gap: 8, fontSize: 10, fontFamily: 'var(--font-mono)' }}>
                     <span style={{ color: '#22c55e' }}>+{commit.additions.toLocaleString()}</span>
                     <span style={{ color: '#ef4444' }}>-{commit.deletions.toLocaleString()}</span>
                   </div>

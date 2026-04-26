@@ -73,7 +73,7 @@ export default function FileHeatmap({ files, commits, selectedFile, onFileSelect
           height: 480,
           minHeight: 320,
           borderRadius: 'var(--radius-md)',
-          border: '1px solid var(--border-1)',
+          border: '0.5px solid var(--border-1)',
           background: 'linear-gradient(180deg, rgba(16, 25, 40, 0.9), rgba(10, 16, 27, 0.95))',
           overflow: 'hidden',
         }}

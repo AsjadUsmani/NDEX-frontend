@@ -162,7 +162,7 @@ export default function SRSExporter({ document: srsDocument }: SRSExporterProps)
         style={{
           height: 32,
           padding: '0 12px',
-          border: '1px solid var(--border-2)',
+          border: '0.5px solid var(--border-2)',
           borderRadius: 'var(--radius-md)',
           background: 'var(--bg-surface)',
           color: 'var(--text-2)',
@@ -183,7 +183,7 @@ export default function SRSExporter({ document: srsDocument }: SRSExporterProps)
         style={{
           height: 32,
           padding: '0 12px',
-          border: '1px solid var(--border-2)',
+          border: '0.5px solid var(--border-2)',
           borderRadius: 'var(--radius-md)',
           background: 'var(--bg-surface)',
           color: 'var(--text-2)',

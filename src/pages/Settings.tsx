@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import PageShell from '../components/layout/PageShell'
-import { useAuth } from '../hooks/useAuth'
+import { useAuthStore } from '../store/authStore'
 
 export default function Settings() {
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuthStore()
   const navigate = useNavigate()
   
   const [githubToken, setGithubToken] = useState(() => localStorage.getItem('ndex-github-token') || '')
@@ -111,12 +111,12 @@ export default function Settings() {
   ]
 
   const sectionStyle = {
-    background: 'var(--bg-card)', border: '1px solid var(--border-2)',
+    background: 'var(--bg-card)', border: '0.5px solid var(--border-2)',
     borderRadius: 'var(--radius-lg)', padding: '24px 28px', marginBottom: 16
   }
   const titleStyle = {
     fontFamily: 'var(--font-display)', fontSize: 16, color: 'var(--gold)',
-    marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid var(--border-1)'
+    marginBottom: 16, paddingBottom: 12, borderBottom: '0.5px solid var(--border-1)'
   }
 
   return (
@@ -128,22 +128,22 @@ export default function Settings() {
           <h2 style={titleStyle}>Profile</h2>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              {user?.user_metadata?.avatar_url ? (
-                <img src={user.user_metadata.avatar_url} alt="Avatar" style={{ width: 48, height: 48, borderRadius: '50%' }} />
+              {user?.avatar_url ? (
+                <img src={user.avatar_url} alt="Avatar" style={{ width: 48, height: 48, borderRadius: '50%' }} />
               ) : (
                 <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--bg-raised)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: 'var(--text-2)' }}>
                   {user?.email?.charAt(0).toUpperCase() || 'U'}
                 </div>
               )}
               <div>
-                <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--text-1)' }}>{user?.user_metadata?.full_name || user?.email}</div>
+                <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--text-1)' }}>{user?.display_name || user?.username || user?.email}</div>
                 <div style={{ color: 'var(--text-3)', fontSize: 14 }}>{user?.email}</div>
               </div>
               <div style={{ padding: '2px 8px', background: 'var(--bg-raised)', borderRadius: 12, fontSize: 12, color: 'var(--text-2)', marginLeft: 8 }}>
-                {user?.app_metadata?.provider || 'Auth'}
+                {user?.plan === 'pro' ? 'Pro Plan' : 'Free Plan'}
               </div>
             </div>
-            <button onClick={handleSignOut} style={{ background: 'transparent', border: '1px solid #ff5e5e', color: '#ff5e5e', padding: '6px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13, fontWeight: 500 }}>
+            <button onClick={handleSignOut} style={{ background: 'transparent', border: '0.5px solid #ff5e5e', color: '#ff5e5e', padding: '6px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13, fontWeight: 500 }}>
               Sign Out
             </button>
           </div>
@@ -161,7 +161,7 @@ export default function Settings() {
                   value={githubToken} 
                   onChange={e => setGithubToken(e.target.value)}
                   placeholder="ghp_... or github_pat_..."
-                  style={{ width: '100%', height: 40, background: 'var(--bg-base)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-md)', padding: '0 12px', color: 'var(--text-1)', outline: 'none' }}
+                  style={{ width: '100%', height: 40, background: 'var(--bg-base)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-md)', padding: '0 12px', color: 'var(--text-1)', outline: 'none' }}
                 />
                 <button onClick={() => setShowGhToken(!showGhToken)} style={{ position: 'absolute', right: 12, top: 10, background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: 12 }}>
                   {showGhToken ? 'Hide' : 'Show'}
@@ -199,7 +199,7 @@ export default function Settings() {
                   value={groqKey} 
                   onChange={e => setGroqKey(e.target.value)}
                   placeholder="gsk_..."
-                  style={{ width: '100%', height: 40, background: 'var(--bg-base)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-md)', padding: '0 12px', color: 'var(--text-1)', outline: 'none' }}
+                  style={{ width: '100%', height: 40, background: 'var(--bg-base)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-md)', padding: '0 12px', color: 'var(--text-1)', outline: 'none' }}
                 />
                 <button onClick={() => setShowGroqKey(!showGroqKey)} style={{ position: 'absolute', right: 12, top: 10, background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: 12 }}>
                   {showGroqKey ? 'Hide' : 'Show'}
@@ -234,13 +234,13 @@ export default function Settings() {
         <section style={sectionStyle}>
           <h2 style={titleStyle}>Data & Privacy</h2>
           <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
-            <button onClick={handleClearCache} style={{ background: 'var(--bg-base)', color: 'var(--text-1)', border: '1px solid var(--border-2)', padding: '8px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13 }}>
+            <button onClick={handleClearCache} style={{ background: 'var(--bg-base)', color: 'var(--text-1)', border: '0.5px solid var(--border-2)', padding: '8px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13 }}>
               Clear Analysis Cache
             </button>
-            <button onClick={handleDisconnectRepo} style={{ background: 'var(--bg-base)', color: 'var(--text-1)', border: '1px solid var(--border-2)', padding: '8px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13 }}>
+            <button onClick={handleDisconnectRepo} style={{ background: 'var(--bg-base)', color: 'var(--text-1)', border: '0.5px solid var(--border-2)', padding: '8px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13 }}>
               Clear Repository Data
             </button>
-            <button onClick={handleExportData} style={{ background: 'var(--bg-base)', color: 'var(--text-1)', border: '1px solid var(--border-2)', padding: '8px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13 }}>
+            <button onClick={handleExportData} style={{ background: 'var(--bg-base)', color: 'var(--text-1)', border: '0.5px solid var(--border-2)', padding: '8px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: 13 }}>
               Export My Data
             </button>
           </div>
@@ -258,7 +258,7 @@ export default function Settings() {
                 <span style={{ color: 'var(--text-2)', fontSize: 14 }}>{sc.action}</span>
                 <div style={{ display: 'flex', gap: 4 }}>
                   {sc.keys.map((k, j) => (
-                    <span key={j} style={{ background: 'var(--bg-raised)', border: '1px solid var(--border-2)', borderRadius: 4, padding: '2px 8px', fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-1)' }}>
+                    <span key={j} style={{ background: 'var(--bg-raised)', border: '0.5px solid var(--border-2)', borderRadius: 4, padding: '2px 8px', fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-1)' }}>
                       {k}
                     </span>
                   ))}

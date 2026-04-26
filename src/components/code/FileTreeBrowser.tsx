@@ -225,10 +225,10 @@ export default function FileTreeBrowser({ files, selectedFile, onFileSelect, ana
         display: 'flex',
         flexDirection: 'column',
         background: 'var(--bg-surface)',
-        borderRight: '1px solid var(--border-1)',
+        borderRight: '0.5px solid var(--border-1)',
       }}
     >
-      <div style={{ padding: 10, borderBottom: '1px solid var(--border-1)' }}>
+      <div style={{ padding: 10, borderBottom: '0.5px solid var(--border-1)' }}>
         <label style={{ position: 'relative', display: 'block' }}>
           <Search size={12} style={{ position: 'absolute', left: 10, top: 10, color: 'var(--text-3)' }} />
           <input
@@ -240,7 +240,7 @@ export default function FileTreeBrowser({ files, selectedFile, onFileSelect, ana
               height: 32,
               padding: '0 10px 0 28px',
               borderRadius: 'var(--radius-sm)',
-              border: '1px solid var(--border-2)',
+              border: '0.5px solid var(--border-2)',
               background: 'var(--bg-raised)',
               color: 'var(--text-1)',
               outline: 'none',
@@ -260,7 +260,7 @@ export default function FileTreeBrowser({ files, selectedFile, onFileSelect, ana
       <div
         style={{
           padding: '8px 10px',
-          borderTop: '1px solid var(--border-1)',
+          borderTop: '0.5px solid var(--border-1)',
           color: 'var(--text-3)',
           fontSize: 12,
           fontFamily: 'var(--font-mono)',

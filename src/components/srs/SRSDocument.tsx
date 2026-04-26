@@ -67,7 +67,7 @@ function techBadgeColor(tech: string): string {
 
 function DataModelCard({ model }: { model: DataModel }) {
   return (
-    <article style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 16 }}>
+    <article style={{ background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 16 }}>
       <h4 style={{ margin: 0, color: 'var(--text-1)', fontSize: 16 }}>{model.name}</h4>
       <p style={{ margin: '6px 0 14px', color: 'var(--text-2)', fontSize: 13 }}>{model.description}</p>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -117,7 +117,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
   const groupedNfr = nfrGroups(document.document.nonFunctionalRequirements)
 
   return (
-    <article className="print-root" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: '40px 48px', maxWidth: 860, margin: '0 auto' }}>
+    <article className="print-root" style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: '40px 48px', maxWidth: 860, margin: '0 auto' }}>
       <header>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, letterSpacing: 3, color: 'var(--text-3)', textTransform: 'uppercase' }}>
           Software Requirements Specification
@@ -220,7 +220,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
       <SectionBlock id="srs-functional" number="3" title="Functional Requirements" printBreak>
         <div style={{ display: 'grid', gap: 12 }}>
           {document.document.functionalRequirements.map(item => (
-            <article key={item.id} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: '16px 20px' }}>
+            <article key={item.id} style={{ background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: '16px 20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ background: 'var(--teal-faint)', color: 'var(--teal)', fontFamily: 'var(--font-mono)', fontSize: 11, padding: '2px 8px', borderRadius: 4 }}>
@@ -228,7 +228,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
                   </span>
                   <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>{item.title}</span>
                 </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, padding: '2px 8px', borderRadius: 4, color: item.priority === 'HIGH' ? '#ff8b8b' : item.priority === 'MEDIUM' ? 'var(--gold)' : '#22c55e', border: '1px solid var(--border-2)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, padding: '2px 8px', borderRadius: 4, color: item.priority === 'HIGH' ? '#ff8b8b' : item.priority === 'MEDIUM' ? 'var(--gold)' : '#22c55e', border: '0.5px solid var(--border-2)' }}>
                   {item.priority}
                 </span>
               </div>
@@ -238,7 +238,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
                   <div style={{ color: 'var(--text-3)', fontSize: 11, textTransform: 'uppercase' }}>Inputs</div>
                   <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {item.inputs.map(value => (
-                      <span key={value} style={{ background: 'var(--bg-raised)', border: '1px solid var(--border-2)', color: 'var(--text-2)', fontSize: 12, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 20 }}>{value}</span>
+                      <span key={value} style={{ background: 'var(--bg-raised)', border: '0.5px solid var(--border-2)', color: 'var(--text-2)', fontSize: 12, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 20 }}>{value}</span>
                     ))}
                   </div>
                 </div>
@@ -246,7 +246,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
                   <div style={{ color: 'var(--text-3)', fontSize: 11, textTransform: 'uppercase' }}>Outputs</div>
                   <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {item.outputs.map(value => (
-                      <span key={value} style={{ background: 'var(--bg-raised)', border: '1px solid var(--border-2)', color: 'var(--text-2)', fontSize: 12, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 20 }}>{value}</span>
+                      <span key={value} style={{ background: 'var(--bg-raised)', border: '0.5px solid var(--border-2)', color: 'var(--text-2)', fontSize: 12, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 20 }}>{value}</span>
                     ))}
                   </div>
                 </div>
@@ -266,7 +266,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
               </div>
               <div style={{ display: 'grid', gap: 8 }}>
                 {items.map(item => (
-                  <article key={item.id} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 12 }}>
+                  <article key={item.id} style={{ background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 12 }}>
                     <div style={{ color: 'var(--text-1)', fontWeight: 600, fontSize: 13 }}>{item.id}</div>
                     <p style={{ margin: '4px 0 8px', color: 'var(--text-2)', fontSize: 13 }}>{item.description}</p>
                     <div style={{ color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontSize: 12 }}>{item.metric}</div>
@@ -322,7 +322,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
             const expanded = Boolean(expandedEndpoints[key])
 
             return (
-              <article key={key} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-1)', borderRadius: 'var(--radius-md)' }}>
+              <article key={key} style={{ background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', borderRadius: 'var(--radius-md)' }}>
                 <button
                   type="button"
                   onClick={() => {
@@ -351,7 +351,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
                 </button>
                 <div style={{ padding: '0 12px 12px', color: 'var(--text-2)', fontSize: 13 }}>{endpoint.description}</div>
                 {expanded ? (
-                  <div style={{ borderTop: '1px solid var(--border-1)', padding: 12, display: 'grid', gap: 8 }}>
+                  <div style={{ borderTop: '0.5px solid var(--border-1)', padding: 12, display: 'grid', gap: 8 }}>
                     <div style={{ color: 'var(--text-3)', fontSize: 12 }}>Request: {endpoint.requestBody || 'N/A'}</div>
                     <div style={{ color: 'var(--text-3)', fontSize: 12 }}>Response: {endpoint.responseSchema || 'N/A'}</div>
                   </div>
@@ -380,7 +380,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
           ].map(item => {
             const Icon = item.icon
             return (
-              <div key={item.key} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 12 }}>
+              <div key={item.key} style={{ background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <Icon size={14} style={{ color: 'var(--teal)' }} />
                   <span style={{ color: 'var(--text-1)', fontWeight: 600, fontSize: 13 }}>{item.key}</span>
@@ -395,7 +395,7 @@ export default function SRSDocument({ document }: SRSDocumentProps) {
       <SectionBlock id="srs-glossary" number="9" title="Glossary" printBreak>
         <div style={{ display: 'grid', gap: 8 }}>
           {document.document.glossary.map(item => (
-            <div key={item.term} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 10 }}>
+            <div key={item.term} style={{ background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', borderRadius: 'var(--radius-md)', padding: 10 }}>
               <div style={{ color: 'var(--text-1)', fontFamily: 'var(--font-mono)', fontSize: 12 }}>{item.term}</div>
               <div style={{ color: 'var(--text-2)', fontSize: 13, marginTop: 4 }}>{item.definition}</div>
             </div>

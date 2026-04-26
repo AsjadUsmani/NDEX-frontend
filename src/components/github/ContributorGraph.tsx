@@ -11,7 +11,7 @@ interface ContributorGraphProps {
 
 export default function ContributorGraph({ contributors, onContributorSelect }: ContributorGraphProps) {
   const [selected, setSelected] = useState<ContributorData | null>(null)
-  const loading = useUIStore(state => state.isLoading('github-connect') || state.isLoading('api'))
+  const loading = useUIStore(state => state.isLoading('github-connect'))
 
   const renderFn = useCallback((container: HTMLDivElement, dimensions: { width: number; height: number }) => {
     if (!contributors.length) {
@@ -42,7 +42,7 @@ export default function ContributorGraph({ contributors, onContributorSelect }: 
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: 16,
       }}
@@ -63,7 +63,7 @@ export default function ContributorGraph({ contributors, onContributorSelect }: 
           style={{
             marginTop: 12,
             background: 'var(--bg-raised)',
-            border: '1px solid var(--border-2)',
+            border: '0.5px solid var(--border-2)',
             borderRadius: 'var(--radius-md)',
             padding: 12,
             display: 'flex',

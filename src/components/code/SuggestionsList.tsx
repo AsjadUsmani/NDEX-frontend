@@ -43,7 +43,7 @@ export default function SuggestionsList({ suggestions }: SuggestionsListProps) {
             key={`${suggestion.title}-${index}`}
             style={{
               background: 'var(--bg-surface)',
-              border: '1px solid var(--border-1)',
+              border: '0.5px solid var(--border-1)',
               borderRadius: 'var(--radius-md)',
               overflow: 'hidden',
             }}
@@ -71,7 +71,7 @@ export default function SuggestionsList({ suggestions }: SuggestionsListProps) {
                       fontFamily: 'var(--font-mono)',
                       color: impact,
                       background: `${impact}1a`,
-                      border: `1px solid ${impact}55`,
+                      border: `0.5px solid ${impact}55`,
                       borderRadius: 999,
                       padding: '2px 8px',
                     }}
@@ -84,7 +84,7 @@ export default function SuggestionsList({ suggestions }: SuggestionsListProps) {
                       fontFamily: 'var(--font-mono)',
                       color: effort,
                       background: `${effort}1a`,
-                      border: `1px solid ${effort}55`,
+                      border: `0.5px solid ${effort}55`,
                       borderRadius: 999,
                       padding: '2px 8px',
                     }}

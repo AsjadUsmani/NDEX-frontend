@@ -84,12 +84,12 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         style={{
           position: 'fixed', top: '20%', left: '50%', transform: 'translateX(-50%)',
           width: 560, maxHeight: 400, background: 'var(--bg-card)',
-          border: '1px solid var(--border-3)', borderRadius: 'var(--radius-lg)',
+          border: '0.5px solid var(--border-3)', borderRadius: 'var(--radius-lg)',
           boxShadow: '0 24px 80px rgba(0,0,0,0.6)', overflow: 'hidden',
           display: 'flex', flexDirection: 'column'
         }}
       >
-        <div style={{ height: 52, padding: '0 20px', borderBottom: '1px solid var(--border-2)', display: 'flex', alignItems: 'center' }}>
+        <div style={{ height: 52, padding: '0 20px', borderBottom: '0.5px solid var(--border-2)', display: 'flex', alignItems: 'center' }}>
           <input
             ref={inputRef}
             type="text"
@@ -117,7 +117,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
                 <cmd.icon size={16} color="var(--text-3)" />
                 <span style={{ color: 'var(--text-1)', fontSize: 14, flex: 1 }}>{cmd.label}</span>
                 {cmd.shortcut && (
-                  <span style={{ color: 'var(--text-3)', fontSize: 12, fontFamily: 'var(--font-mono)', padding: '2px 6px', background: 'var(--bg-base)', border: '1px solid var(--border-1)', borderRadius: 4 }}>
+                  <span style={{ color: 'var(--text-3)', fontSize: 12, fontFamily: 'var(--font-mono)', padding: '2px 6px', background: 'var(--bg-base)', border: '0.5px solid var(--border-1)', borderRadius: 4 }}>
                     {cmd.shortcut}
                   </span>
                 )}

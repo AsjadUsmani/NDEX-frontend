@@ -105,7 +105,7 @@ export default function SRSPage() {
                   top: 12,
                   alignSelf: 'start',
                   background: 'var(--bg-surface)',
-                  borderRight: '1px solid var(--border-1)',
+                  borderRight: '0.5px solid var(--border-1)',
                   borderRadius: 'var(--radius-md)',
                   padding: 12,
                   maxHeight: 'calc(100vh - 180px)',
@@ -146,7 +146,7 @@ export default function SRSPage() {
         </div>
       ) : (
         <div style={{
-          background: 'var(--bg-raised)', border: '1px solid var(--border-gold)',
+          background: 'var(--bg-raised)', border: '0.5px solid var(--border-gold)',
           borderRadius: 'var(--radius-md)', padding: '14px 20px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16
         }}>

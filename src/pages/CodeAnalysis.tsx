@@ -59,7 +59,7 @@ export default function CodeAnalysis() {
     return (
       <PageShell title="Code Analysis" subtitle="Connect a repository to inspect source code">
         <div style={{
-          background: 'var(--bg-raised)', border: '1px solid var(--border-gold)',
+          background: 'var(--bg-raised)', border: '0.5px solid var(--border-gold)',
           borderRadius: 'var(--radius-md)', padding: '14px 20px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16
         }}>
@@ -87,7 +87,7 @@ export default function CodeAnalysis() {
       noPadding
     >
       {/* ── Top-level navigation tabs ── */}
-      <div style={{ display: 'flex', borderBottom: '1px solid var(--border-1)', background: 'var(--bg-surface)', padding: '0 20px', gap: 2 }}>
+      <div style={{ display: 'flex', borderBottom: '0.5px solid var(--border-1)', background: 'var(--bg-surface)', padding: '0 20px', gap: 2 }}>
         {([['paste', 'Paste Code', Code2], ['browse', 'Browse Repo', FolderOpen]] as const).map(([id, label, Icon]) => (
           <button
             key={id}
@@ -133,7 +133,7 @@ export default function CodeAnalysis() {
             ) : (
               <div style={{ flex: 1, overflow: 'auto' }}>
                 {/* File header bar */}
-                <div style={{ height: 38, background: 'var(--bg-raised)', borderBottom: '1px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 14px', position: 'sticky', top: 0, zIndex: 1 }}>
+                <div style={{ height: 38, background: 'var(--bg-raised)', borderBottom: '0.5px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 14px', position: 'sticky', top: 0, zIndex: 1 }}>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-2)' }}>{selectedFile}</span>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-4)', background: 'var(--bg-surface)', padding: '2px 8px', borderRadius: 4 }}>
                     {mapHighlightLanguage(selectedFile)}

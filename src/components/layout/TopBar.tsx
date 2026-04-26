@@ -1,9 +1,9 @@
 import { Loader2, Github, GitBranch } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
-import { useAuth } from '../../hooks/useAuth'
 import { useRepoStore } from '../../store/repoStore'
 import { useUIStore } from '../../store/uiStore'
+import { useAuthStore } from '../../store/authStore'
 
 const titleMap: Record<string, string> = {
   '/': 'Dashboard',
@@ -16,7 +16,7 @@ const titleMap: Record<string, string> = {
 export default function TopBar() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuthStore()
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -49,7 +49,7 @@ export default function TopBar() {
         justifyContent: 'space-between',
         padding: '0 24px 0 32px',
         background: 'var(--bg-surface)',
-        borderBottom: '1px solid var(--border-2)',
+        borderBottom: '0.5px solid var(--border-2)',
         zIndex: 10,
       }}
     >
@@ -67,7 +67,7 @@ export default function TopBar() {
               padding: '4px 12px',
               borderRadius: 20,
               background: 'var(--bg-raised)',
-              border: '1px solid var(--border-gold)',
+              border: '0.5px solid var(--border-gold)',
               color: 'var(--gold)',
               fontFamily: 'var(--font-mono)',
               fontSize: 12,
@@ -129,8 +129,8 @@ export default function TopBar() {
                 overflow: 'hidden', padding: 0
               }}
             >
-              {user.user_metadata?.avatar_url ? (
-                <img src={user.user_metadata.avatar_url} alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              {user?.avatar_url ? (
+                <img src={user.avatar_url} alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
                 <span style={{ color: 'var(--text-1)', fontSize: 14, fontWeight: 600 }}>
                   {user.email?.charAt(0).toUpperCase()}
@@ -140,7 +140,7 @@ export default function TopBar() {
             {showDropdown && (
               <div style={{
                 position: 'absolute', top: '100%', right: 0, marginTop: 8,
-                background: 'var(--bg-card)', border: '1px solid var(--border-2)',
+                background: 'var(--bg-card)', border: '0.5px solid var(--border-2)',
                 borderRadius: 'var(--radius-md)', boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
                 minWidth: 160, zIndex: 100, display: 'flex', flexDirection: 'column', padding: '4px 0'
               }}>

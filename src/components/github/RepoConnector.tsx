@@ -26,9 +26,9 @@ export default function RepoConnector({ onConnect, loading, error, progress, pro
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
-        padding: 24,
+        padding: 16,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
@@ -53,7 +53,7 @@ export default function RepoConnector({ onConnect, loading, error, progress, pro
               height: 36,
               padding: '0 14px',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-2)',
+              border: '0.5px solid var(--border-2)',
               background: 'transparent',
               color: 'var(--text-2)',
               cursor: 'pointer',
@@ -74,13 +74,13 @@ export default function RepoConnector({ onConnect, loading, error, progress, pro
               spellCheck={false}
               style={{
                 width: '100%',
-                height: 44,
+                height: 38,
                 background: 'var(--bg-surface)',
-                border: '1px solid var(--border-2)',
+                border: '0.5px solid var(--border-2)',
                 borderRadius: 'var(--radius-md)',
                 color: 'var(--text-1)',
                 fontFamily: 'var(--font-mono)',
-                fontSize: 14,
+                fontSize: 13,
                 padding: '0 16px',
                 outline: 'none',
               }}
@@ -103,13 +103,13 @@ export default function RepoConnector({ onConnect, loading, error, progress, pro
               onClick={() => void handleConnect()}
               disabled={loading}
               style={{
-                height: 44,
-                padding: '0 24px',
+                height: 38,
+                padding: '0 20px',
                 marginLeft: 12,
                 background: 'var(--teal)',
                 color: 'var(--bg-void)',
                 fontWeight: 600,
-                fontSize: 14,
+                fontSize: 13,
                 borderRadius: 'var(--radius-md)',
                 border: 'none',
                 cursor: loading ? 'not-allowed' : 'pointer',
@@ -135,7 +135,7 @@ export default function RepoConnector({ onConnect, loading, error, progress, pro
 
           {progress > 0 ? (
             <div style={{ marginTop: 18 }}>
-              <div style={{ height: 3, width: '100%', background: 'var(--border-1)', borderRadius: 2, overflow: 'hidden' }}>
+              <div style={{ height: 2, width: '100%', background: 'var(--border-1)', borderRadius: 2, overflow: 'hidden' }}>
                 <div
                   style={{
                     height: '100%',

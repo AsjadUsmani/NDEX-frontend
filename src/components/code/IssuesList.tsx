@@ -76,7 +76,7 @@ export default function IssuesList({ issues }: IssuesListProps) {
             fontSize: 11,
             fontFamily: 'var(--font-mono)',
             color: badgeColor,
-            border: `1px solid ${badgeColor}55`,
+            border: `0.5px solid ${badgeColor}55`,
             background: `${badgeColor}1a`,
             borderRadius: 999,
             padding: '3px 10px',
@@ -102,7 +102,7 @@ export default function IssuesList({ issues }: IssuesListProps) {
               type="button"
               onClick={() => setFilter(key)}
               style={{
-                border: '1px solid var(--border-2)',
+                border: '0.5px solid var(--border-2)',
                 background: active ? 'var(--teal-faint)' : 'transparent',
                 color: active ? 'var(--teal)' : 'var(--text-3)',
                 fontSize: 11,
@@ -127,7 +127,7 @@ export default function IssuesList({ issues }: IssuesListProps) {
               key={`${issue.title}-${index}`}
               style={{
                 background: 'var(--bg-surface)',
-                border: '1px solid var(--border-1)',
+                border: '0.5px solid var(--border-1)',
                 borderRadius: 'var(--radius-md)',
                 overflow: 'hidden',
               }}
@@ -156,7 +156,7 @@ export default function IssuesList({ issues }: IssuesListProps) {
                           textTransform: 'uppercase',
                           color,
                           background: `${color}1a`,
-                          border: `1px solid ${color}44`,
+                          border: `0.5px solid ${color}44`,
                           borderRadius: 999,
                           padding: '2px 8px',
                         }}

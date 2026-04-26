@@ -2,8 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Code2, FileText, GitBranch, LayoutDashboard, Settings, LogOut } from 'lucide-react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useUIStore } from '../../store/uiStore'
-import { useAuth } from '../../hooks/useAuth'
-import { signOut } from '../../lib/supabase'
+import { useAuthStore } from '../../store/authStore'
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -18,12 +17,11 @@ export default function Sidebar() {
   const toggleSidebar = useUIStore(state => state.toggleSidebar)
   const navigate = useNavigate()
 
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuthStore()
   const width = sidebarCollapsed ? 64 : 240
 
   const handleLogout = async () => {
-    await signOut()
-    logout()               // clear Zustand store
+    await logout()
     navigate('/', { replace: true })
   }
 
@@ -39,7 +37,7 @@ export default function Sidebar() {
         display: 'flex',
         flexDirection: 'column',
         background: 'var(--bg-surface)',
-        borderRight: '1px solid var(--border-2)',
+        borderRight: '0.5px solid var(--border-2)',
         overflow: 'hidden',
         zIndex: 20,
       }}
@@ -50,7 +48,7 @@ export default function Sidebar() {
           padding: '0 16px',
           display: 'flex',
           alignItems: 'center',
-          borderBottom: '1px solid var(--border-1)',
+          borderBottom: '0.5px solid var(--border-1)',
           overflow: 'hidden',
         }}
       >
@@ -158,7 +156,7 @@ export default function Sidebar() {
       <div
         style={{
           padding: sidebarCollapsed ? '12px 0 12px' : '12px 16px',
-          borderTop: '1px solid var(--border-1)',
+          borderTop: '0.5px solid var(--border-1)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
@@ -173,8 +171,8 @@ export default function Sidebar() {
               width: 28, height: 28, borderRadius: '50%', background: 'var(--bg-raised)', display: 'flex',
               alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0
             }}>
-              {user.user_metadata?.avatar_url ? (
-                <img src={user.user_metadata.avatar_url} alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              {user.avatar_url ? (
+                <img src={user.avatar_url} alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
                 <span style={{ color: 'var(--text-1)', fontSize: 12, fontWeight: 600 }}>{user.email?.charAt(0).toUpperCase()}</span>
               )}
@@ -185,7 +183,7 @@ export default function Sidebar() {
                 style={{ minWidth: 0, flex: 1, display: 'flex', flexDirection: 'column' }}
               >
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--text-1)', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {user.user_metadata?.full_name || user.email}
+                  {user.display_name || user.username || user.email}
                 </span>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: 11, color: 'var(--text-3)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {user.email}
@@ -199,7 +197,7 @@ export default function Sidebar() {
               title="Sign out"
               style={{
                 flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: 28, height: 28, background: 'transparent', border: '1px solid var(--border-2)',
+                width: 28, height: 28, background: 'transparent', border: '0.5px solid var(--border-2)',
                 borderRadius: 6, color: 'var(--text-3)', cursor: 'pointer', transition: 'all 0.15s',
               }}
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#ff5e5e'; (e.currentTarget as HTMLButtonElement).style.borderColor = '#ff5e5e55'; (e.currentTarget as HTMLButtonElement).style.background = '#ff5e5e1a' }}
@@ -222,7 +220,7 @@ export default function Sidebar() {
           alignItems: 'center',
           justifyContent: 'center',
           border: 'none',
-          borderTop: '1px solid var(--border-1)',
+          borderTop: '0.5px solid var(--border-1)',
           background: 'transparent',
           color: 'var(--text-3)',
           cursor: 'pointer',

@@ -23,10 +23,10 @@ function createTooltip() {
     .style('pointer-events', 'none')
     .style('opacity', '0')
     .style('background', '#101928')
-    .style('border', '1px solid rgba(0,161,155,0.3)')
+    .style('border', '0.5px solid rgba(0,161,155,0.3)')
     .style('border-radius', '8px')
     .style('padding', '10px 14px')
-    .style('font-family', 'Space Grotesk, sans-serif')
+    .style('font-family', 'IBM Plex Sans, sans-serif')
     .style('font-size', '12px')
     .style('color', '#e8f4f3')
     .style('z-index', '9999')
@@ -146,7 +146,7 @@ export function renderActivityChart(
     .selectAll('text')
     .attr('fill', '#4d7c79')
     .style('font-size', '11px')
-    .style('font-family', 'Space Grotesk, sans-serif')
+    .style('font-family', 'IBM Plex Sans, sans-serif')
 
   g.selectAll('.domain').attr('stroke', 'none')
   g.selectAll('g.tick line')
@@ -155,7 +155,7 @@ export function renderActivityChart(
 
   const xAxis = g.append('g').attr('transform', `translate(0,${innerH - 20})`)
   xAxis.call(d3.axisBottom(xScale).tickValues(data.filter((_, index) => index % 2 === 0).map(d => d.week)).tickFormat(value => d3.timeFormat('%b %d')(parseWeekLabel(String(value)))))
-  xAxis.selectAll('text').attr('fill', '#4d7c79').style('font-size', '11px').style('font-family', 'Space Grotesk, sans-serif')
+  xAxis.selectAll('text').attr('fill', '#4d7c79').style('font-size', '11px').style('font-family', 'IBM Plex Sans, sans-serif')
   xAxis.selectAll('line').attr('stroke', 'rgba(0,161,155,0.2)')
   xAxis.selectAll('.domain').attr('stroke', 'rgba(0,161,155,0.2)')
 
@@ -175,7 +175,7 @@ export function renderActivityChart(
       .attr('y', 9)
       .attr('fill', '#8fb5b3')
       .style('font-size', '11px')
-      .style('font-family', 'Space Grotesk, sans-serif')
+      .style('font-family', 'IBM Plex Sans, sans-serif')
       .text(item.label)
   })
 
@@ -393,14 +393,14 @@ export function renderPRSizeChart(
     .selectAll('text')
     .attr('fill', '#4d7c79')
     .style('font-size', '11px')
-    .style('font-family', 'Space Grotesk, sans-serif')
+    .style('font-family', 'IBM Plex Sans, sans-serif')
 
   g.append('g')
     .call(d3.axisLeft(yScale).ticks(5))
     .selectAll('text')
     .attr('fill', '#4d7c79')
     .style('font-size', '11px')
-    .style('font-family', 'Space Grotesk, sans-serif')
+    .style('font-family', 'IBM Plex Sans, sans-serif')
 
   g.selectAll('.domain').attr('stroke', 'rgba(0,161,155,0.20)')
   g.selectAll('line').attr('stroke', 'rgba(0,161,155,0.10)')
@@ -546,7 +546,7 @@ export function renderContributorBars(
     .selectAll('text')
     .attr('fill', '#4d7c79')
     .style('font-size', '11px')
-    .style('font-family', 'Space Grotesk, sans-serif')
+    .style('font-family', 'IBM Plex Sans, sans-serif')
 
   const bars = g.selectAll('rect')
     .data(contributors)

@@ -16,7 +16,7 @@ const ranges: RangeKey[] = ['7D', '30D', '90D', 'All']
 
 export default function CommitTimeline({ commits, onCommitSelect }: CommitTimelineProps) {
   const [activeRange, setActiveRange] = useState<RangeKey>('All')
-  const loading = useUIStore(state => state.isLoading('github-connect') || state.isLoading('api'))
+  const loading = useUIStore(state => state.isLoading('github-connect'))
 
   const filtered = useMemo(() => {
     if (activeRange === 'All') {
@@ -50,7 +50,7 @@ export default function CommitTimeline({ commits, onCommitSelect }: CommitTimeli
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: 16,
       }}

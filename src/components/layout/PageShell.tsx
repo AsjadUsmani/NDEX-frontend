@@ -16,7 +16,7 @@ export default function PageShell({ children, title, subtitle, actions, noPaddin
         <div
           style={{
             padding: '28px 32px 20px',
-            borderBottom: '1px solid var(--border-1)',
+            borderBottom: '0.5px solid var(--border-1)',
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'space-between',

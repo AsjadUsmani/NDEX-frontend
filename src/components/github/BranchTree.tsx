@@ -13,7 +13,7 @@ interface BranchTreeProps {
 
 export default function BranchTree({ branches, commits, onBranchSelect }: BranchTreeProps) {
   const [selected, setSelected] = useState<BranchData | null>(null)
-  const loading = useUIStore(state => state.isLoading('github-connect') || state.isLoading('api'))
+  const loading = useUIStore(state => state.isLoading('github-connect'))
 
   const renderFn = useCallback((container: HTMLDivElement, dimensions: { width: number; height: number }) => {
     if (!branches.length) {
@@ -38,7 +38,7 @@ export default function BranchTree({ branches, commits, onBranchSelect }: Branch
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: 16,
       }}
@@ -49,7 +49,7 @@ export default function BranchTree({ branches, commits, onBranchSelect }: Branch
           style={{
             padding: '4px 10px',
             borderRadius: 20,
-            border: '1px solid var(--border-2)',
+            border: '0.5px solid var(--border-2)',
             color: 'var(--text-3)',
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
@@ -70,7 +70,7 @@ export default function BranchTree({ branches, commits, onBranchSelect }: Branch
           style={{
             marginTop: 12,
             background: 'var(--bg-raised)',
-            border: '1px solid var(--border-gold)',
+            border: '0.5px solid var(--border-gold)',
             borderRadius: 'var(--radius-md)',
             padding: '12px 16px',
           }}

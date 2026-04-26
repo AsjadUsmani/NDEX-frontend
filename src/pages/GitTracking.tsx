@@ -29,11 +29,11 @@ function PRDetail({ pr }: { pr: PRData }) {
   const stateColor = pr.merged ? 'var(--teal)' : pr.state === 'open' ? 'var(--gold)' : 'var(--error)'
 
   return (
-    <div style={{ display: 'grid', gap: 14, background: 'var(--bg-raised)', border: '1px solid var(--border-gold)', borderRadius: 'var(--radius-md)', padding: '16px 20px' }}>
+    <div style={{ display: 'grid', gap: 14, background: 'var(--bg-raised)', border: '0.5px solid var(--border-gold)', borderRadius: 'var(--radius-md)', padding: '16px 20px' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
         <div style={{ display: 'grid', gap: 6 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', background: 'var(--gold-faint)', border: '1px solid var(--border-gold)', borderRadius: 999, padding: '2px 8px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', background: 'var(--gold-faint)', border: '0.5px solid var(--border-gold)', borderRadius: 999, padding: '2px 8px' }}>
               #{pr.number}
             </span>
             <span style={{ color: 'var(--text-1)', fontFamily: 'var(--font-display)', fontSize: 18 }}>{pr.title}</span>
@@ -47,7 +47,7 @@ function PRDetail({ pr }: { pr: PRData }) {
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
-          <span style={{ color: stateColor, fontFamily: 'var(--font-mono)', fontSize: 11, textTransform: 'uppercase', background: `${stateColor}1a`, border: `1px solid ${stateColor}44`, borderRadius: 999, padding: '2px 8px' }}>
+          <span style={{ color: stateColor, fontFamily: 'var(--font-mono)', fontSize: 11, textTransform: 'uppercase', background: `${stateColor}1a`, border: `0.5px solid ${stateColor}44`, borderRadius: 999, padding: '2px 8px' }}>
             {pr.merged ? 'merged' : pr.state}
           </span>
           <a href={pr.url} target="_blank" rel="noreferrer" style={{ color: 'var(--gold)', fontSize: 13 }}>View on GitHub →</a>
@@ -65,7 +65,7 @@ function PRDetail({ pr }: { pr: PRData }) {
       {pr.labels.length > 0 ? (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {pr.labels.map(label => (
-            <span key={label} style={{ fontSize: 11, fontFamily: 'var(--font-mono)', padding: '3px 8px', borderRadius: 999, background: 'var(--bg-surface)', border: '1px solid var(--border-1)', color: 'var(--text-2)' }}>
+            <span key={label} style={{ fontSize: 11, fontFamily: 'var(--font-mono)', padding: '3px 8px', borderRadius: 999, background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', color: 'var(--text-2)' }}>
               {label}
             </span>
           ))}
@@ -91,7 +91,7 @@ function CommitDetail({ commit }: CommitDetailProps) {
           toast.success('SHA copied')
         }}
         style={{
-          border: '1px solid var(--border-2)',
+          border: '0.5px solid var(--border-2)',
           background: 'var(--bg-surface)',
           color: 'var(--text-2)',
           borderRadius: 'var(--radius-md)',
@@ -238,8 +238,8 @@ export default function GitTracking() {
 
     if (activeTab === 'heatmap') {
       return (
-        <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+          <div style={{ padding: '14px 20px', borderBottom: '0.5px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)' }}>Code Change Heatmap</div>
               <div style={{ fontSize: 12, color: 'var(--text-3)' }}>Files sized by change frequency across recent commits</div>
@@ -320,7 +320,7 @@ export default function GitTracking() {
               <section
                 style={{
                   background: 'var(--bg-card)',
-                  border: '1px solid var(--border-2)',
+                  border: '0.5px solid var(--border-2)',
                   borderRadius: 'var(--radius-lg)',
                   padding: 16,
                 }}
@@ -335,7 +335,7 @@ export default function GitTracking() {
         </div>
       ) : (
         <div style={{
-          background: 'var(--bg-raised)', border: '1px solid var(--border-gold)',
+          background: 'var(--bg-raised)', border: '0.5px solid var(--border-gold)',
           borderRadius: 'var(--radius-md)', padding: '14px 20px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16
         }}>

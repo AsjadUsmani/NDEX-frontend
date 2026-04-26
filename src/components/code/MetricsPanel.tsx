@@ -145,7 +145,7 @@ export default function MetricsPanel({ metrics, qualityScore }: MetricsPanelProp
         style={{
           gridColumn: '1 / -1',
           background: 'var(--bg-surface)',
-          border: '1px solid var(--border-1)',
+          border: '0.5px solid var(--border-1)',
           borderRadius: 'var(--radius-md)',
           padding: 16,
           display: 'flex',
@@ -193,7 +193,7 @@ export default function MetricsPanel({ metrics, qualityScore }: MetricsPanelProp
             key={card.key}
             style={{
               background: 'var(--bg-surface)',
-              border: '1px solid var(--border-1)',
+              border: '0.5px solid var(--border-1)',
               borderRadius: 'var(--radius-md)',
               padding: 14,
               position: 'relative',

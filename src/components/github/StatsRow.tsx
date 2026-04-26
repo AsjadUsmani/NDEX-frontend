@@ -49,9 +49,9 @@ export default function StatsRow({ metadata }: StatsRowProps) {
             key={card.label}
             style={{
               background: 'var(--bg-card)',
-              border: '1px solid var(--border-2)',
+              border: '0.5px solid var(--border-2)',
               borderRadius: 'var(--radius-lg)',
-              padding: 20,
+              padding: 14,
               transition: 'all 0.2s ease',
             }}
             onMouseEnter={event => {
@@ -65,8 +65,8 @@ export default function StatsRow({ metadata }: StatsRowProps) {
           >
             <div
               style={{
-                width: 36,
-                height: 36,
+                width: 30,
+                height: 30,
                 borderRadius: '50%',
                 display: 'grid',
                 placeItems: 'center',
@@ -79,7 +79,7 @@ export default function StatsRow({ metadata }: StatsRowProps) {
             <div
               style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 28,
+                fontSize: 24,
                 fontWeight: 800,
                 color: 'var(--text-1)',
                 marginTop: 12,
@@ -90,10 +90,10 @@ export default function StatsRow({ metadata }: StatsRowProps) {
             <div
               style={{
                 marginTop: 4,
-                fontSize: 12,
+                fontSize: 11,
                 color: 'var(--text-3)',
                 textTransform: 'uppercase',
-                letterSpacing: 0.8,
+                letterSpacing: 0.5,
               }}
             >
               {card.label}

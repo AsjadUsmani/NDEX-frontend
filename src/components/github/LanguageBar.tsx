@@ -23,7 +23,7 @@ export default function LanguageBar({ languages }: LanguageBarProps) {
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: 20,
       }}
@@ -34,7 +34,7 @@ export default function LanguageBar({ languages }: LanguageBarProps) {
 
       <div
         style={{
-          height: 8,
+          height: 5,
           borderRadius: 4,
           overflow: 'hidden',
           display: 'flex',
@@ -53,15 +53,15 @@ export default function LanguageBar({ languages }: LanguageBarProps) {
         ))}
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 14 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 14 }}>
         {entries.map(([language, percentage]) => (
           <div key={language} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span
               aria-hidden="true"
-              style={{ width: 8, height: 8, borderRadius: '50%', background: colorMap[language] || colorMap.Other }}
+              style={{ width: 8, height: 5, borderRadius: '50%', background: colorMap[language] || colorMap.Other }}
             />
-            <span style={{ fontSize: 12, color: 'var(--text-2)' }}>{language}</span>
-            <span style={{ fontSize: 12, color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>
+            <span style={{ fontSize: 11, color: 'var(--text-2)' }}>{language}</span>
+            <span style={{ fontSize: 11, color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>
               {percentage.toFixed(1)}%
             </span>
           </div>

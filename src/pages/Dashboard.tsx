@@ -36,7 +36,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div style={{
-            background: 'var(--bg-raised)', border: '1px solid var(--border-gold)',
+            background: 'var(--bg-raised)', border: '0.5px solid var(--border-gold)',
             borderRadius: 'var(--radius-md)', padding: '14px 20px',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16
           }}>

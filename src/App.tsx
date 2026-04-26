@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useAuth } from './hooks/useAuth'
 import { useUIStore } from './store/uiStore'
-import AuthGuard from './components/auth/AuthGuard'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import GuestRoute from './components/auth/GuestRoute'
 import CommandPalette from './components/ui/CommandPalette'
 import Sidebar from './components/layout/Sidebar'
 import TopBar from './components/layout/TopBar'
@@ -12,6 +12,8 @@ import TopBar from './components/layout/TopBar'
 // Pages
 import HomePage from './pages/HomePage'
 import AuthCallback from './pages/AuthCallback'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import GitTracking from './pages/GitTracking'
 import SRSPage from './pages/SRSPage'
@@ -48,7 +50,6 @@ function AppShell({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { isAuthenticated } = useAuth()
   const { activeModal, openModal, closeModal } = useUIStore()
 
   // Global keyboard shortcuts
@@ -73,45 +74,25 @@ export default function App() {
       </AnimatePresence>
 
       <Routes>
-        {/* Public routes */}
-        <Route
-          path="/"
-          element={
-            isAuthenticated
-              ? <Navigate to="/dashboard" replace />
-              : <HomePage />
-          }
-        />
-        <Route path="/auth/callback" element={<AuthCallback />} />
-
-        {/* Protected routes — all inside AppShell */}
+        <Route path="/login"    element={<GuestRoute><Login /></GuestRoute>} />
+        <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
+        <Route path="/" element={
+          <GuestRoute>
+            <HomePage />
+          </GuestRoute>
+        } />
         <Route path="/dashboard" element={
-          <AuthGuard>
-            <AppShell><Dashboard /></AppShell>
-          </AuthGuard>
-        }/>
-        <Route path="/git" element={
-          <AuthGuard>
-            <AppShell><GitTracking /></AppShell>
-          </AuthGuard>
-        }/>
-        <Route path="/srs" element={
-          <AuthGuard>
-            <AppShell><SRSPage /></AppShell>
-          </AuthGuard>
-        }/>
-        <Route path="/code" element={
-          <AuthGuard>
-            <AppShell><CodeAnalysis /></AppShell>
-          </AuthGuard>
-        }/>
-        <Route path="/settings" element={
-          <AuthGuard>
-            <AppShell><Settings /></AppShell>
-          </AuthGuard>
-        }/>
-
-        {/* Fallback */}
+          <ProtectedRoute>
+            <AppShell>
+              <Dashboard />
+            </AppShell>
+          </ProtectedRoute>
+        } />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/git"      element={<ProtectedRoute><AppShell><GitTracking /></AppShell></ProtectedRoute>} />
+        <Route path="/srs"      element={<ProtectedRoute><AppShell><SRSPage /></AppShell></ProtectedRoute>} />
+        <Route path="/code"     element={<ProtectedRoute><AppShell><CodeAnalysis /></AppShell></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><AppShell><Settings /></AppShell></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
@@ -121,8 +102,8 @@ export default function App() {
           style: {
             background: '#101928',
             color: '#e8f4f3',
-            border: '1px solid rgba(0,161,155,0.3)',
-            fontFamily: 'Space Grotesk, sans-serif',
+            border: '0.5px solid rgba(0,161,155,0.3)',
+            fontFamily: 'IBM Plex Sans, sans-serif',
             fontSize: '14px',
           },
           success: { iconTheme: { primary: '#00a19b', secondary: '#101928' } },

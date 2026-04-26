@@ -37,7 +37,7 @@ export default function FileHeatmap({ files, commits, selectedFile, onFileSelect
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: 16,
       }}
@@ -61,7 +61,7 @@ export default function FileHeatmap({ files, commits, selectedFile, onFileSelect
           style={{
             marginTop: 12,
             background: 'var(--bg-raised)',
-            border: '1px solid var(--border-2)',
+            border: '0.5px solid var(--border-2)',
             borderRadius: 'var(--radius-md)',
             padding: 12,
           }}

@@ -120,12 +120,12 @@ export default function CodeInputPanel() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
       {/* ── Input card ─────────────────────────────────────── */}
-      <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', boxShadow: '0 4px 32px rgba(0,161,155,0.07)' }}>
+      <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', boxShadow: '0 4px 32px rgba(0,161,155,0.07)' }}>
 
         {/* Header */}
-        <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(135deg,var(--bg-raised),var(--bg-card))' }}>
+        <div style={{ padding: '14px 20px', borderBottom: '0.5px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(135deg,var(--bg-raised),var(--bg-card))' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--teal-faint)', border: '1px solid var(--border-2)', display: 'grid', placeItems: 'center' }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--teal-faint)', border: '0.5px solid var(--border-2)', display: 'grid', placeItems: 'center' }}>
               <Code2 size={15} color="var(--teal)" />
             </div>
             <div>
@@ -135,7 +135,7 @@ export default function CodeInputPanel() {
           </div>
           {/* Language selector */}
           <div style={{ position: 'relative' }}>
-            <select value={lang} onChange={e => setLang(e.target.value)} style={{ appearance: 'none', background: 'var(--bg-raised)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-1)', fontFamily: 'var(--font-mono)', fontSize: 12, padding: '6px 32px 6px 12px', cursor: 'pointer', outline: 'none' }}>
+            <select value={lang} onChange={e => setLang(e.target.value)} style={{ appearance: 'none', background: 'var(--bg-raised)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-1)', fontFamily: 'var(--font-mono)', fontSize: 12, padding: '6px 32px 6px 12px', cursor: 'pointer', outline: 'none' }}>
               {LANGUAGES.map(l => <option key={l} value={l}>{l}</option>)}
             </select>
             <ChevronDown size={12} color="var(--text-3)" style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
@@ -160,15 +160,15 @@ export default function CodeInputPanel() {
         />
 
         {/* Footer */}
-        <div style={{ padding: '12px 20px', borderTop: '1px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-surface)' }}>
+        <div style={{ padding: '12px 20px', borderTop: '0.5px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-surface)' }}>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
             <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>{lines} lines</span>
             <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>{code.length.toLocaleString()} chars</span>
-            {code.length > 0 && <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--teal)', background: 'var(--teal-faint)', padding: '2px 8px', borderRadius: 99, border: '1px solid var(--border-2)' }}>~{tokens} tokens</span>}
+            {code.length > 0 && <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--teal)', background: 'var(--teal-faint)', padding: '2px 8px', borderRadius: 99, border: '0.5px solid var(--border-2)' }}>~{tokens} tokens</span>}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             {code.length > 0 && (
-              <button onClick={() => { setCode(''); setOutput(null); setSvgs({}) }} style={{ height: 36, padding: '0 16px', background: 'transparent', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-3)', fontSize: 12, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}>Clear</button>
+              <button onClick={() => { setCode(''); setOutput(null); setSvgs({}) }} style={{ height: 36, padding: '0 16px', background: 'transparent', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-3)', fontSize: 12, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}>Clear</button>
             )}
             <button
               onClick={analyze}
@@ -183,7 +183,7 @@ export default function CodeInputPanel() {
 
       {/* Error */}
       {err && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: 'rgba(255,94,94,0.08)', border: '1px solid rgba(255,94,94,0.3)', borderRadius: 'var(--radius-md)', color: '#ff9b9b', fontSize: 13, fontFamily: 'var(--font-mono)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: 'rgba(255,94,94,0.08)', border: '0.5px solid rgba(255,94,94,0.3)', borderRadius: 'var(--radius-md)', color: '#ff9b9b', fontSize: 13, fontFamily: 'var(--font-mono)' }}>
           <AlertTriangle size={15} color="#ff5e5e" /> {err}
         </div>
       )}
@@ -194,7 +194,7 @@ export default function CodeInputPanel() {
 
           {/* Summary + metrics row */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 16 }}>
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: 'var(--radius-md)', padding: '18px 22px', backgroundImage: 'linear-gradient(135deg,transparent,rgba(228,221,61,0.02))' }}>
+            <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-gold)', borderRadius: 'var(--radius-md)', padding: '18px 22px', backgroundImage: 'linear-gradient(135deg,transparent,rgba(228,221,61,0.02))' }}>
               <div style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <Sparkles size={11} /> AI Summary
               </div>
@@ -211,7 +211,7 @@ export default function CodeInputPanel() {
                 { label: 'Lines',           value: output.metrics.linesOfCode,     hi: false },
                 { label: 'Functions',       value: output.metrics.functionCount,   hi: false },
               ].map(m => (
-                <div key={m.label} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-1)', borderRadius: 'var(--radius-sm)', padding: '12px 14px', textAlign: 'center' }}>
+                <div key={m.label} style={{ background: 'var(--bg-surface)', border: '0.5px solid var(--border-1)', borderRadius: 'var(--radius-sm)', padding: '12px 14px', textAlign: 'center' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 800, color: m.hi ? '#ff5e5e' : 'var(--teal)', lineHeight: 1 }}>{m.value}</div>
                   <div style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: 1, marginTop: 4, fontFamily: 'var(--font-mono)' }}>{m.label}</div>
                 </div>
@@ -221,9 +221,9 @@ export default function CodeInputPanel() {
 
           {/* Diagram viewer */}
           {output.diagrams.length > 0 && (
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
               {/* Tabs */}
-              <div style={{ display: 'flex', borderBottom: '1px solid var(--border-1)', background: 'var(--bg-surface)', overflowX: 'auto' }}>
+              <div style={{ display: 'flex', borderBottom: '0.5px solid var(--border-1)', background: 'var(--bg-surface)', overflowX: 'auto' }}>
                 {DIAGRAM_META.map(dt => {
                   const has = output.diagrams.some(d => d.type === dt.id)
                   const isActive = active === dt.id
@@ -240,17 +240,17 @@ export default function CodeInputPanel() {
               {currentDiagram && (
                 <>
                   {/* Toolbar */}
-                  <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ padding: '10px 16px', borderBottom: '0.5px solid var(--border-1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div>
                       <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-1)' }}>{currentDiagram.title}</span>
                       <span style={{ fontSize: 12, color: 'var(--text-3)', marginLeft: 10 }}>{currentDiagram.description}</span>
                     </div>
                     <div style={{ display: 'flex', gap: 6 }}>
-                      <button onClick={() => navigator.clipboard.writeText(currentDiagram.mermaidCode)} style={{ display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 12px', background: 'var(--bg-raised)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-2)', fontSize: 11, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>
+                      <button onClick={() => navigator.clipboard.writeText(currentDiagram.mermaidCode)} style={{ display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 12px', background: 'var(--bg-raised)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-2)', fontSize: 11, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>
                         <Copy size={11} /> Source
                       </button>
                       {svgs[currentDiagram.type] && <>
-                        <button onClick={() => downloadSVG(svgs[currentDiagram.type], currentDiagram.title)} style={{ display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 12px', background: 'var(--bg-raised)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-2)', fontSize: 11, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>
+                        <button onClick={() => downloadSVG(svgs[currentDiagram.type], currentDiagram.title)} style={{ display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 12px', background: 'var(--bg-raised)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-sm)', color: 'var(--text-2)', fontSize: 11, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>
                           <Download size={11} /> SVG
                         </button>
                         <button onClick={() => downloadPNG(svgs[currentDiagram.type], currentDiagram.title)} style={{ display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 14px', background: 'var(--teal)', border: 'none', borderRadius: 'var(--radius-sm)', color: 'var(--bg-void)', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>
@@ -272,7 +272,7 @@ export default function CodeInputPanel() {
                   </div>
 
                   {/* Collapsible source */}
-                  <details style={{ borderTop: '1px solid var(--border-1)' }}>
+                  <details style={{ borderTop: '0.5px solid var(--border-1)' }}>
                     <summary style={{ padding: '9px 16px', fontSize: 11, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', cursor: 'pointer', userSelect: 'none', background: 'var(--bg-surface)', listStyle: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
                       <ChevronDown size={11} /> View Mermaid source
                     </summary>
@@ -288,22 +288,22 @@ export default function CodeInputPanel() {
           {/* Issues + Suggestions */}
           {(output.issues.length > 0 || output.suggestions.length > 0) && (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-                <div style={{ padding: '11px 16px', borderBottom: '1px solid var(--border-1)', fontSize: 13, fontWeight: 600, color: 'var(--text-1)' }}>
+              <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+                <div style={{ padding: '11px 16px', borderBottom: '0.5px solid var(--border-1)', fontSize: 13, fontWeight: 600, color: 'var(--text-1)' }}>
                   Issues <span style={{ fontSize: 11, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', marginLeft: 6 }}>({output.issues.length})</span>
                 </div>
                 <div style={{ padding: '6px 0', maxHeight: 280, overflowY: 'auto' }}>
                   {output.issues.map((issue, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '9px 16px', borderBottom: i < output.issues.length - 1 ? '1px solid var(--border-1)' : 'none' }}>
-                      <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', background: `${severityColor(issue.severity)}20`, color: severityColor(issue.severity), border: `1px solid ${severityColor(issue.severity)}50`, padding: '2px 6px', borderRadius: 4, textTransform: 'uppercase', whiteSpace: 'nowrap', marginTop: 1 }}>{issue.severity}</span>
+                      <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', background: `${severityColor(issue.severity)}20`, color: severityColor(issue.severity), border: `0.5px solid ${severityColor(issue.severity)}50`, padding: '2px 6px', borderRadius: 4, textTransform: 'uppercase', whiteSpace: 'nowrap', marginTop: 1 }}>{issue.severity}</span>
                       <span style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{issue.message}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-                <div style={{ padding: '11px 16px', borderBottom: '1px solid var(--border-1)', fontSize: 13, fontWeight: 600, color: 'var(--text-1)' }}>
+              <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+                <div style={{ padding: '11px 16px', borderBottom: '0.5px solid var(--border-1)', fontSize: 13, fontWeight: 600, color: 'var(--text-1)' }}>
                   Suggestions <span style={{ fontSize: 11, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', marginLeft: 6 }}>({output.suggestions.length})</span>
                 </div>
                 <div style={{ padding: '6px 0', maxHeight: 280, overflowY: 'auto' }}>

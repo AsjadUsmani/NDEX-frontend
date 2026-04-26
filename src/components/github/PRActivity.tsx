@@ -45,7 +45,7 @@ function SummaryPill({ label, value }: { label: string; value: number }) {
         alignItems: 'center',
         gap: 8,
         background: 'var(--bg-raised)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         padding: '6px 16px',
         borderRadius: 20,
         fontFamily: 'var(--font-mono)',
@@ -210,7 +210,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
       ) : (
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 16, alignItems: 'start' }}>
-            <section style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
+            <section style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-2)' }}>Weekly PR & Issue Activity</div>
                 <div style={{ color: 'var(--text-3)', fontSize: 12 }}>Last 12 weeks</div>
@@ -218,7 +218,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
               <div ref={activityRef} style={{ position: 'relative', width: '100%', height: 260, overflow: 'hidden' }} />
             </section>
 
-            <section style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
+            <section style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-2)' }}>Merge Rate Gauge</div>
                 <div style={{ color: 'var(--text-3)', fontSize: 12 }}>Average merge time</div>
@@ -228,7 +228,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 16, alignItems: 'start' }}>
-            <section style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
+            <section style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-2)' }}>PR Size Distribution</div>
                 <div style={{ color: 'var(--text-3)', fontSize: 12 }}>Merged, open, and closed PRs</div>
@@ -236,7 +236,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
               <div ref={scatterRef} style={{ position: 'relative', width: '100%', height: 280, overflow: 'hidden' }} />
             </section>
 
-            <section style={{ background: 'var(--bg-card)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
+            <section style={{ background: 'var(--bg-card)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-lg)', padding: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-2)' }}>Top Contributors</div>
                 <div style={{ color: 'var(--text-3)', fontSize: 12 }}>PR authors</div>
@@ -256,7 +256,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
             transition={{ duration: 0.25 }}
             style={{
               background: 'var(--bg-raised)',
-              border: '1px solid var(--border-gold)',
+              border: '0.5px solid var(--border-gold)',
               borderRadius: 'var(--radius-md)',
               padding: '16px 20px',
               display: 'grid',
@@ -267,7 +267,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
               <div style={{ display: 'grid', gap: 6 }}>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', background: 'var(--gold-faint)', border: '1px solid var(--border-gold)', borderRadius: 999, padding: '2px 8px' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', background: 'var(--gold-faint)', border: '0.5px solid var(--border-gold)', borderRadius: 999, padding: '2px 8px' }}>
                     #{selectedPR.number}
                   </span>
                   <span style={{ color: 'var(--text-1)', fontFamily: 'var(--font-display)', fontSize: 18, overflowWrap: 'anywhere' }}>{selectedPR.title}</span>
@@ -281,7 +281,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
-                <span style={{ color: stateColor(selectedPR), fontFamily: 'var(--font-mono)', fontSize: 11, textTransform: 'uppercase', background: `${stateColor(selectedPR)}1a`, border: `1px solid ${stateColor(selectedPR)}44`, borderRadius: 999, padding: '2px 8px' }}>
+                <span style={{ color: stateColor(selectedPR), fontFamily: 'var(--font-mono)', fontSize: 11, textTransform: 'uppercase', background: `${stateColor(selectedPR)}1a`, border: `0.5px solid ${stateColor(selectedPR)}44`, borderRadius: 999, padding: '2px 8px' }}>
                   {selectedPR.merged ? 'merged' : selectedPR.state}
                 </span>
                 <a href={selectedPR.url || `https://github.com/${selectedPR.author}`} target="_blank" rel="noreferrer" style={{ color: 'var(--gold)', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
@@ -309,7 +309,7 @@ export default function PRActivity({ onPRSelect }: PRActivityProps) {
                       padding: '3px 8px',
                       borderRadius: 999,
                       background: 'var(--bg-surface)',
-                      border: '1px solid var(--border-1)',
+                      border: '0.5px solid var(--border-1)',
                       color: 'var(--text-2)',
                     }}
                   >

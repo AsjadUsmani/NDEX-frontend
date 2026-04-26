@@ -8,19 +8,19 @@ const pillStyles = [
   {
     label: 'D3 Git Graphs',
     background: 'var(--teal-faint)',
-    border: '1px solid var(--border-2)',
+    border: '0.5px solid var(--border-2)',
     color: 'var(--teal)',
   },
   {
     label: 'AI SRS Docs',
     background: 'var(--gold-faint)',
-    border: '1px solid var(--border-gold)',
+    border: '0.5px solid var(--border-gold)',
     color: 'var(--gold)',
   },
   {
     label: 'Code Analysis',
     background: 'rgba(139,92,246,0.12)',
-    border: '1px solid rgba(139,92,246,0.3)',
+    border: '0.5px solid rgba(139,92,246,0.3)',
     color: '#8b5cf6',
   },
 ]
@@ -60,7 +60,7 @@ export default function EmptyState({ onConnect }: EmptyStateProps) {
       <div
         style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 80,
+          fontSize: 72,
           fontWeight: 800,
           lineHeight: 1,
           background: 'linear-gradient(135deg, var(--teal), var(--gold))',
@@ -75,7 +75,7 @@ export default function EmptyState({ onConnect }: EmptyStateProps) {
       <div
         style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: 800,
           color: 'var(--text-1)',
           position: 'relative',
@@ -89,7 +89,7 @@ export default function EmptyState({ onConnect }: EmptyStateProps) {
           maxWidth: 400,
           textAlign: 'center',
           color: 'var(--text-2)',
-          fontSize: 14,
+          fontSize: 13,
           lineHeight: 1.7,
           position: 'relative',
           zIndex: 1,
@@ -104,13 +104,13 @@ export default function EmptyState({ onConnect }: EmptyStateProps) {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              padding: '6px 14px',
+              padding: '4px 12px',
               borderRadius: 20,
               background: pill.background,
               border: pill.border,
               color: pill.color,
               fontFamily: 'var(--font-mono)',
-              fontSize: 12,
+              fontSize: 11,
               whiteSpace: 'nowrap',
             }}
           >
@@ -127,7 +127,7 @@ export default function EmptyState({ onConnect }: EmptyStateProps) {
             height: 44,
             padding: '0 18px',
             borderRadius: 'var(--radius-md)',
-            border: '1px solid var(--border-2)',
+            border: '0.5px solid var(--border-2)',
             background: 'var(--bg-card)',
             color: 'var(--text-1)',
             cursor: 'pointer',

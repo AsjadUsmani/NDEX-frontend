@@ -52,7 +52,7 @@ export default function PatternsList({ patterns }: PatternsListProps) {
         key={`${pattern.name}-${pattern.location}-${index}`}
         style={{
           background: 'var(--bg-surface)',
-          border: '1px solid var(--border-1)',
+          border: '0.5px solid var(--border-1)',
           borderRadius: 'var(--radius-md)',
           padding: '14px 16px',
           display: 'grid',

@@ -53,12 +53,12 @@ export default function TopContributors({ contributors }: TopContributorsProps) 
     <section
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: 20,
       }}
     >
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-2)', marginBottom: 12 }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, color: 'var(--text-2)', marginBottom: 12 }}>
         Top Contributors
       </div>
 
@@ -80,21 +80,21 @@ export default function TopContributors({ contributors }: TopContributorsProps) 
                   display: 'flex',
                   alignItems: 'center',
                   gap: 12,
-                  padding: '10px 0',
+                  padding: '8px 0',
                   borderBottom: index === visibleContributors.length - 1 ? 'none' : '1px solid var(--border-1)',
                 }}
               >
-                <div style={{ width: 20, fontFamily: 'var(--font-mono)', fontSize: 12, color: rankColor }}>
+                <div style={{ width: 20, fontFamily: 'var(--font-mono)', fontSize: 11, color: rankColor }}>
                   {rank}
                 </div>
 
                 <ContributorAvatar contributor={contributor} />
 
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ color: 'var(--text-1)', fontSize: 14, fontWeight: 500 }}>
+                  <div style={{ color: 'var(--text-1)', fontSize: 13, fontWeight: 500 }}>
                     {contributor.name || contributor.login}
                   </div>
-                  <div style={{ color: 'var(--text-3)', fontSize: 12 }}>{contributor.login}</div>
+                  <div style={{ color: 'var(--text-3)', fontSize: 11 }}>{contributor.login}</div>
                   <div
                     style={{
                       marginTop: 6,
@@ -111,8 +111,8 @@ export default function TopContributors({ contributors }: TopContributorsProps) 
                     background: 'var(--teal-faint)',
                     color: 'var(--teal)',
                     fontFamily: 'var(--font-mono)',
-                    fontSize: 12,
-                    padding: '2px 10px',
+                    fontSize: 11,
+                    padding: '2px 8px',
                     borderRadius: 20,
                     whiteSpace: 'nowrap',
                   }}

@@ -119,7 +119,7 @@ export default function CodeViewer({ originalCode, annotatedCode, language, file
         <div
           style={{
             height: 36,
-            borderBottom: '1px solid var(--border-1)',
+            borderBottom: '0.5px solid var(--border-1)',
             background: 'var(--bg-raised)',
             display: 'flex',
             alignItems: 'center',
@@ -142,7 +142,7 @@ export default function CodeViewer({ originalCode, annotatedCode, language, file
               void copyCode(originalCode)
             }}
             style={{
-              border: '1px solid var(--border-2)',
+              border: '0.5px solid var(--border-2)',
               background: 'transparent',
               color: 'var(--text-2)',
               cursor: 'pointer',
@@ -185,8 +185,8 @@ export default function CodeViewer({ originalCode, annotatedCode, language, file
           width: 8,
           cursor: 'col-resize',
           background: 'var(--bg-surface)',
-          borderLeft: '1px solid var(--border-2)',
-          borderRight: '1px solid var(--border-2)',
+          borderLeft: '0.5px solid var(--border-2)',
+          borderRight: '0.5px solid var(--border-2)',
           flexShrink: 0,
         }}
       />
@@ -195,7 +195,7 @@ export default function CodeViewer({ originalCode, annotatedCode, language, file
         <div
           style={{
             height: 36,
-            borderBottom: '1px solid var(--border-1)',
+            borderBottom: '0.5px solid var(--border-1)',
             background: 'var(--bg-raised)',
             display: 'flex',
             alignItems: 'center',
@@ -214,7 +214,7 @@ export default function CodeViewer({ originalCode, annotatedCode, language, file
                 borderRadius: 20,
                 background: 'var(--teal-faint)',
                 color: 'var(--teal)',
-                border: '1px solid var(--border-2)',
+                border: '0.5px solid var(--border-2)',
               }}
             >
               AI Enhanced
@@ -230,7 +230,7 @@ export default function CodeViewer({ originalCode, annotatedCode, language, file
               void copyCode(annotatedCode)
             }}
             style={{
-              border: '1px solid var(--border-2)',
+              border: '0.5px solid var(--border-2)',
               background: 'transparent',
               color: 'var(--text-2)',
               cursor: 'pointer',

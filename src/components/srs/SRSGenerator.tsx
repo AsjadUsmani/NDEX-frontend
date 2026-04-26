@@ -62,7 +62,7 @@ export default function SRSGenerator({
       <div
         style={{
           background: 'var(--bg-raised)',
-          border: '1px solid var(--border-gold)',
+          border: '0.5px solid var(--border-gold)',
           borderRadius: 'var(--radius-md)',
           padding: '12px 20px',
           display: 'flex',
@@ -96,7 +96,7 @@ export default function SRSGenerator({
             style={{
               height: 32,
               padding: '0 12px',
-              border: '1px solid var(--border-2)',
+              border: '0.5px solid var(--border-2)',
               borderRadius: 'var(--radius-md)',
               background: 'transparent',
               color: 'var(--text-2)',
@@ -122,7 +122,7 @@ export default function SRSGenerator({
         className="ndex-grid-bg"
         style={{
           background: 'var(--bg-card)',
-          border: '1px solid var(--border-2)',
+          border: '0.5px solid var(--border-2)',
           borderRadius: 'var(--radius-lg)',
           padding: 24,
           display: 'grid',
@@ -171,7 +171,7 @@ export default function SRSGenerator({
               style={{
                 height: 32,
                 padding: '0 12px',
-                border: '1px solid rgba(255,94,94,0.45)',
+                border: '0.5px solid rgba(255,94,94,0.45)',
                 borderRadius: 'var(--radius-md)',
                 background: 'transparent',
                 color: '#ff8b8b',
@@ -195,7 +195,7 @@ export default function SRSGenerator({
       className="ndex-grid-bg"
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-2)',
+        border: '0.5px solid var(--border-2)',
         borderRadius: 'var(--radius-lg)',
         padding: '36px 24px',
         display: 'grid',

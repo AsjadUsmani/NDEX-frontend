@@ -93,7 +93,7 @@ export function renderHeatmap(
     .style('pointer-events', 'none')
     .style('opacity', '0')
     .style('background', 'rgba(10, 16, 27, 0.96)')
-    .style('border', '1px solid rgba(0, 161, 155, 0.35)')
+    .style('border', '0.5px solid rgba(0, 161, 155, 0.35)')
     .style('border-radius', '10px')
     .style('padding', '10px 12px')
     .style('font-family', 'var(--font-mono)')
