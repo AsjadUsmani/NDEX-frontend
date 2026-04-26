@@ -71,7 +71,7 @@ export function useSRS(): UseSRSReturn {
     setError(null)
     setLoadingState('srs-generate', true)
 
-    const source = new EventSource(srsApi.getGenerateStreamUrl(owner, repo))
+    const source = new EventSource(srsApi.getGenerateStreamUrl(owner, repo), { withCredentials: true })
     sourceRef.current = source
 
     source.onmessage = (message: MessageEvent<string>) => {

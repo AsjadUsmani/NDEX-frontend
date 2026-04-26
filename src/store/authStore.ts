@@ -33,12 +33,12 @@ interface AuthState {
 function setAuthCookie(token: string) {
   const expires = new Date()
   expires.setTime(expires.getTime() + 15 * 60 * 1000) // 15 minutes
-  document.cookie = `auth_token=${token}; path=/; expires=${expires.toUTCString()}; SameSite=Strict`
+  document.cookie = `ndex_token=${token}; path=/; expires=${expires.toUTCString()}; SameSite=Strict`
 }
 
 // Utility to clear auth cookie
 function clearAuthCookie() {
-  document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict'
+  document.cookie = 'ndex_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict'
 }
 
 function applyAccessToken(token: string | null) {
@@ -220,6 +220,7 @@ export const useAuthStore = create<AuthState>()(
                              isAuthenticated: s.isAuthenticated }),
       onRehydrateStorage: () => (state) => {
         if (state?.accessToken) {
+          setAuthCookie(state.accessToken)
           applyAccessToken(state.accessToken)
         }
         if (state) state.hasHydrated = true

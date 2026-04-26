@@ -70,10 +70,17 @@ async function renderMermaid(diagrams: GeneratedDiagram[]): Promise<Record<strin
   const svgs: Record<string, string> = {}
   for (const d of diagrams) {
     try {
-      const { svg } = await mermaid.render(`ndex-${d.type}-${Date.now()}`, d.mermaidCode)
+      // Use a unique ID for each render to avoid collisions
+      const renderId = `ndex-${d.type}-${Date.now()}-${Math.floor(Math.random() * 10000)}`
+      const { svg } = await mermaid.render(renderId, d.mermaidCode)
       svgs[d.type] = svg
-    } catch {
-      svgs[d.type] = `<div style="color:#ff5e5e;font-family:monospace;padding:12px;font-size:12px">⚠ Render failed for ${d.title}</div>`
+    } catch (err) {
+      console.error(`Mermaid render failed for ${d.type}:`, err)
+      svgs[d.type] = `<div style="color:#ff5e5e;font-family:monospace;padding:12px;font-size:12px;text-align:center">
+        <div style="font-size:20px;margin-bottom:8px">⚠</div>
+        Render failed for ${d.title}<br/>
+        <span style="opacity:0.7;font-size:10px">Check Mermaid source for syntax errors</span>
+      </div>`
     }
   }
   return svgs
