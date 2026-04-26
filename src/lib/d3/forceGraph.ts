@@ -159,7 +159,7 @@ export function renderForceGraph(
         .attr('dy', '0.35em')
         .style('fill', '#e8f4f3')
         .style('font-size', '11px')
-        .style('font-family', 'JetBrains Mono, monospace')
+        .style('font-family', 'Geist Mono, monospace')
         .text(initials(node.login))
     })
   })

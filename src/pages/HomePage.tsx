@@ -37,18 +37,14 @@ export default function HomePage() {
       {/* ── Nav ── */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, padding: '0 48px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(5,8,15,0.85)', backdropFilter: 'blur(12px)', borderBottom: '0.5px solid rgba(0,161,155,0.1)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg,#00a19b,#00d4cc)', display: 'grid', placeItems: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: '#05080f' }}>Nx</div>
-          <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: 1, background: 'linear-gradient(135deg,#00a19b,#e4dd3d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>NDEX</span>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg,#00a19b,#00d4cc)', display: 'grid', placeItems: 'center', fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 14, color: '#05080f' }}>Nx</div>
+          <span style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: 1, background: 'linear-gradient(135deg,#00a19b,#e4dd3d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>NDEX</span>
         </div>
         <div style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
           {['Features', 'Integrations', 'Documentation'].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/ /g,'-')}`} style={{ color: '#8fb5b3', fontSize: 14, textDecoration: 'none', fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => (e.currentTarget.style.color = '#e8f4f3')} onMouseOut={e => (e.currentTarget.style.color = '#8fb5b3')}>{l}</a>
           ))}
-          <a href="/login" style={{ color: '#8fb5b3', fontSize: 14, textDecoration: 'none', fontWeight: 500, transition: 'color 0.2s', marginLeft: 12 }} onMouseOver={e => (e.currentTarget.style.color = '#e8f4f3')} onMouseOut={e => (e.currentTarget.style.color = '#8fb5b3')}>Login</a>
         </div>
-        <button onClick={() => window.location.href = '/register'} style={{ height: 36, padding: '0 18px', borderRadius: 8, background: '#00a19b', border: 'none', color: '#05080f', fontWeight: 700, fontSize: 13, cursor: 'pointer', transition: 'filter 0.2s' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(1.15)'} onMouseOut={e => e.currentTarget.style.filter = 'brightness(1)'}>
-          Register
-        </button>
       </nav>
 
       {/* ── Hero ── */}
@@ -57,11 +53,11 @@ export default function HomePage() {
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 600px 500px at 75% 75%, rgba(228,221,61,0.05) 0%, transparent 70%)' }} />
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 760, textAlign: 'center' }}>
-          <motion.div {...fadeUp(0)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '0.5px solid rgba(228,221,61,0.3)', background: 'rgba(228,221,61,0.07)', color: '#e4dd3d', fontFamily: "'JetBrains Mono',monospace", fontSize: 12, padding: '5px 14px', borderRadius: 99, marginBottom: 28, letterSpacing: 1 }}>
+          <motion.div {...fadeUp(0)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '0.5px solid rgba(228,221,61,0.3)', background: 'rgba(228,221,61,0.07)', color: '#e4dd3d', fontFamily: "'Geist Mono, monospace',monospace", fontSize: 12, padding: '5px 14px', borderRadius: 99, marginBottom: 28, letterSpacing: 1 }}>
             ✦ Neural Design Explorer · v1.0
           </motion.div>
 
-          <motion.h1 {...fadeUp(0.08)} style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(42px,7vw,80px)', lineHeight: 1.05, letterSpacing: -2, margin: '0 0 24px' }}>
+          <motion.h1 {...fadeUp(0.08)} style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 'clamp(42px,7vw,80px)', lineHeight: 1.05, letterSpacing: -2, margin: '0 0 24px' }}>
             <span style={{ color: '#e8f4f3' }}>Understand Any</span>
             <br />
             <span style={{ background: 'linear-gradient(135deg,#00a19b 0%,#00d4cc 40%,#e4dd3d 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>GitHub Repository</span>
@@ -72,15 +68,15 @@ export default function HomePage() {
           </motion.p>
 
           <motion.div {...fadeUp(0.22)} style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 20 }}>
-            <button onClick={() => window.location.href = '/login'} style={{ display: 'flex', alignItems: 'center', gap: 9, height: 52, padding: '0 28px', background: 'transparent', color: '#e4dd3d', border: '0.5px solid rgba(228,221,61,0.3)', borderRadius: 10, fontWeight: 600, fontSize: 15, cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.background = 'rgba(228,221,61,0.07)'; e.currentTarget.style.transform = 'translateY(-2px)' }} onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.transform = 'translateY(0)' }}>
-              Login
-            </button>
             <button onClick={() => window.location.href = '/register'} style={{ display: 'flex', alignItems: 'center', gap: 9, height: 52, padding: '0 28px', background: '#00a19b', color: '#05080f', border: 'none', borderRadius: 10, fontWeight: 700, fontSize: 15, cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 0 32px rgba(0,161,155,0.35)' }} onMouseOver={e => { e.currentTarget.style.filter = 'brightness(1.12)'; e.currentTarget.style.transform = 'translateY(-2px)' }} onMouseOut={e => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'translateY(0)' }}>
               Register
             </button>
+            <button onClick={() => window.location.href = '/login'} style={{ display: 'flex', alignItems: 'center', gap: 9, height: 52, padding: '0 28px', background: 'transparent', color: '#e4dd3d', border: '0.5px solid rgba(228,221,61,0.3)', borderRadius: 10, fontWeight: 600, fontSize: 15, cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.background = 'rgba(228,221,61,0.07)'; e.currentTarget.style.transform = 'translateY(-2px)' }} onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.transform = 'translateY(0)' }}>
+              Login
+            </button>
           </motion.div>
 
-          <motion.p {...fadeUp(0.28)} style={{ color: '#2a4a48', fontSize: 12, fontFamily: "'JetBrains Mono',monospace", letterSpacing: 0.5 }}>
+          <motion.p {...fadeUp(0.28)} style={{ color: '#2a4a48', fontSize: 12, fontFamily: "'Geist Mono, monospace',monospace", letterSpacing: 0.5 }}>
             Free forever · No credit card · Open source
           </motion.p>
 
@@ -111,8 +107,8 @@ export default function HomePage() {
       {/* ── Features ── */}
       <section id="features" style={{ padding: '100px 48px', maxWidth: 1200, margin: '0 auto' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ textAlign: 'center', marginBottom: 64 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#00a19b', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 14 }}>Capabilities</div>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,42px)', color: '#e8f4f3', margin: '0 0 12px', letterSpacing: -1 }}>Everything you need to understand code</h2>
+          <div style={{ fontFamily: "'Geist Mono, monospace',monospace", fontSize: 11, color: '#00a19b', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 14 }}>Capabilities</div>
+          <h2 style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,42px)', color: '#e8f4f3', margin: '0 0 12px', letterSpacing: -1 }}>Everything you need to understand code</h2>
           <p style={{ color: '#8fb5b3', fontSize: 16, maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>A complete suite of tools to visualize, document, and analyze your repositories.</p>
         </motion.div>
 
@@ -126,7 +122,7 @@ export default function HomePage() {
               <div style={{ width: 44, height: 44, borderRadius: 12, background: `${f.color}18`, border: `0.5px solid ${f.color}33`, display: 'grid', placeItems: 'center', marginBottom: 18 }}>
                 <f.icon size={20} color={f.color} />
               </div>
-              <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 700, color: '#e8f4f3', margin: '0 0 8px' }}>{f.title}</h3>
+              <h3 style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontSize: 16, fontWeight: 700, color: '#e8f4f3', margin: '0 0 8px' }}>{f.title}</h3>
               <p style={{ color: '#8fb5b3', fontSize: 14, lineHeight: 1.7, margin: 0 }}>{f.description}</p>
             </motion.div>
           ))}
@@ -138,8 +134,8 @@ export default function HomePage() {
         <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: 32 }}>
           {stats.map((s, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 40, background: 'linear-gradient(135deg,#00a19b,#e4dd3d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1.1 }}>{s.value}</div>
-              <div style={{ color: '#4d7c79', fontSize: 12, fontFamily: "'JetBrains Mono',monospace", textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{s.label}</div>
+              <div style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 40, background: 'linear-gradient(135deg,#00a19b,#e4dd3d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1.1 }}>{s.value}</div>
+              <div style={{ color: '#4d7c79', fontSize: 12, fontFamily: "'Geist Mono, monospace',monospace", textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -148,8 +144,8 @@ export default function HomePage() {
       {/* ── How it works ── */}
       <section id="how-it-works" style={{ padding: '100px 48px', maxWidth: 1200, margin: '0 auto' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ textAlign: 'center', marginBottom: 64 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#00a19b', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 14 }}>Quick Start</div>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,42px)', color: '#e8f4f3', margin: '0 0 12px', letterSpacing: -1 }}>Get started in 3 steps</h2>
+          <div style={{ fontFamily: "'Geist Mono, monospace',monospace", fontSize: 11, color: '#00a19b', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 14 }}>Quick Start</div>
+          <h2 style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,42px)', color: '#e8f4f3', margin: '0 0 12px', letterSpacing: -1 }}>Get started in 3 steps</h2>
           <p style={{ color: '#8fb5b3', fontSize: 16, margin: 0, lineHeight: 1.7 }}>From zero to complete codebase intelligence in minutes.</p>
         </motion.div>
         <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', flexWrap: 'wrap', gap: 4 }}>
@@ -157,11 +153,11 @@ export default function HomePage() {
             <div key={i} style={{ display: 'flex', alignItems: 'center', flex: '1 1 260px', maxWidth: 340 }}>
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.1 }}
                 style={{ flex: 1, position: 'relative', background: 'rgba(12,20,32,0.8)', border: '0.5px solid rgba(0,161,155,0.12)', borderRadius: 16, padding: '32px 28px', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: 12, right: 16, fontFamily: "'Syne',sans-serif", fontSize: 52, fontWeight: 900, color: '#00a19b', opacity: 0.1, lineHeight: 1 }}>{step.number}</div>
+                <div style={{ position: 'absolute', top: 12, right: 16, fontFamily: "'Geist, sans-serif',sans-serif", fontSize: 52, fontWeight: 900, color: '#00a19b', opacity: 0.1, lineHeight: 1 }}>{step.number}</div>
                 <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(0,161,155,0.15)', border: '0.5px solid rgba(0,161,155,0.3)', display: 'grid', placeItems: 'center', marginBottom: 18 }}>
                   <step.icon size={19} color="#00a19b" />
                 </div>
-                <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 700, color: '#e8f4f3', margin: '0 0 10px' }}>{step.title}</h3>
+                <h3 style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontSize: 18, fontWeight: 700, color: '#e8f4f3', margin: '0 0 10px' }}>{step.title}</h3>
                 <p style={{ color: '#8fb5b3', fontSize: 14, lineHeight: 1.7, margin: 0 }}>{step.description}</p>
               </motion.div>
               {i < steps.length - 1 && <div style={{ padding: '0 12px', flexShrink: 0, color: '#2a4a48' }}><ArrowRight size={20} /></div>}
@@ -174,9 +170,9 @@ export default function HomePage() {
       <section style={{ padding: '80px 48px' }}>
         <motion.div initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
           style={{ maxWidth: 600, margin: '0 auto', background: 'linear-gradient(135deg,rgba(0,161,155,0.1) 0%,rgba(228,221,61,0.05) 100%)', border: '0.5px solid rgba(228,221,61,0.2)', borderRadius: 20, padding: '60px 48px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontFamily: "'Syne',sans-serif", fontSize: 220, fontWeight: 900, color: '#e4dd3d', opacity: 0.03, pointerEvents: 'none', lineHeight: 1 }}>Nx</div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#e4dd3d', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 }}>Ready?</div>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(24px,3.5vw,36px)', color: '#e8f4f3', margin: '0 0 12px', letterSpacing: -1 }}>Start exploring your codebase</h2>
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontFamily: "'Geist, sans-serif',sans-serif", fontSize: 220, fontWeight: 900, color: '#e4dd3d', opacity: 0.03, pointerEvents: 'none', lineHeight: 1 }}>Nx</div>
+          <div style={{ fontFamily: "'Geist Mono, monospace',monospace", fontSize: 11, color: '#e4dd3d', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 }}>Ready?</div>
+          <h2 style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 'clamp(24px,3.5vw,36px)', color: '#e8f4f3', margin: '0 0 12px', letterSpacing: -1 }}>Start exploring your codebase</h2>
           <p style={{ color: '#8fb5b3', fontSize: 16, margin: '0 0 36px', lineHeight: 1.7 }}>Connect your first repository in seconds. Free forever.</p>
           <button onClick={() => window.location.href = '/register'} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, height: 52, padding: '0 32px', background: '#00a19b', color: '#05080f', border: 'none', borderRadius: 10, fontWeight: 700, fontSize: 15, cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 0 40px rgba(0,161,155,0.3)' }} onMouseOver={e => { e.currentTarget.style.filter = 'brightness(1.12)'; e.currentTarget.style.transform = 'translateY(-2px)' }} onMouseOut={e => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'translateY(0)' }}>
             Get Started Free
@@ -188,8 +184,8 @@ export default function HomePage() {
       <footer style={{ padding: '40px 48px', borderTop: '0.5px solid rgba(0,161,155,0.08)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 26, height: 26, borderRadius: 6, background: 'linear-gradient(135deg,#00a19b,#00d4cc)', display: 'grid', placeItems: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 11, color: '#05080f' }}>Nx</div>
-            <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 15, color: '#8fb5b3', letterSpacing: 1 }}>NDEX</span>
+            <div style={{ width: 26, height: 26, borderRadius: 6, background: 'linear-gradient(135deg,#00a19b,#00d4cc)', display: 'grid', placeItems: 'center', fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 900, fontSize: 11, color: '#05080f' }}>Nx</div>
+            <span style={{ fontFamily: "'Geist, sans-serif',sans-serif", fontWeight: 800, fontSize: 15, color: '#8fb5b3', letterSpacing: 1 }}>NDEX</span>
             <span style={{ color: '#2a4a48', fontSize: 13 }}>Neural Design Explorer</span>
           </div>
           <div style={{ display: 'flex', gap: 28 }}>
@@ -198,7 +194,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        <div style={{ maxWidth: 1200, margin: '20px auto 0', textAlign: 'center', color: '#2a4a48', fontSize: 12, fontFamily: "'JetBrains Mono',monospace" }}>
+        <div style={{ maxWidth: 1200, margin: '20px auto 0', textAlign: 'center', color: '#2a4a48', fontSize: 12, fontFamily: "'Geist Mono, monospace',monospace" }}>
           © 2026 NDEX · Built with React, D3.js &amp; Groq AI
         </div>
       </footer>

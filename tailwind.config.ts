@@ -14,9 +14,10 @@ export default {
         raised: '#141f30',
       },
       fontFamily: {
-        display: ['Syne', 'sans-serif'],
-        body: ['Space Grotesk', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        display: ['Geist', 'sans-serif'],
+        body: ['Geist', 'sans-serif'],
+        mono: ['Geist Mono', 'monospace'],
+        sans: ['Geist', 'sans-serif'],
       },
       borderRadius: {
         sm: '6px',

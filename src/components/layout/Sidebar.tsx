@@ -1,12 +1,13 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Code2, FileText, GitBranch, LayoutDashboard, Settings, LogOut } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Code2, FileText, GitBranch, GitCompare, LayoutDashboard, Settings, LogOut } from 'lucide-react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useUIStore } from '../../store/uiStore'
 import { useAuthStore } from '../../store/authStore'
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/git', label: 'Git Tracking', icon: GitBranch },
+  { to: '/diff', label: 'Diff Visualizer', icon: GitCompare },
   { to: '/srs', label: 'SRS Docs', icon: FileText },
   { to: '/code', label: 'Code Analysis', icon: Code2 },
   { to: '/settings', label: 'Settings', icon: Settings },
@@ -99,7 +100,7 @@ export default function Sidebar() {
             <NavLink
               key={item.to}
               to={item.to}
-              end={item.to === '/'}
+              end={item.to === '/dashboard'}
               style={{ textDecoration: 'none' }}
             >
               {({ isActive }) => (

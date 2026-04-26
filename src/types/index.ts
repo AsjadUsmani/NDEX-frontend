@@ -298,3 +298,40 @@ export interface AnalysisOutput {
   suggestions: string[]
 }
 
+export interface DiffFile {
+  filename: string
+  status: 'added' | 'removed' | 'modified' | 'renamed' | 'copied'
+  additions: number
+  deletions: number
+  changes: number
+  patch?: string
+  previousFilename?: string
+}
+
+export interface DiffLine {
+  type: 'added' | 'removed' | 'context' | 'header'
+  content: string
+  oldLineNum?: number
+  newLineNum?: number
+}
+
+export interface CommitComparison {
+  baseRef: string
+  headRef: string
+  status: 'ahead' | 'behind' | 'diverged' | 'identical'
+  aheadBy: number
+  behindBy: number
+  totalCommits: number
+  files: DiffFile[]
+  commits: CommitData[]
+}
+
+export interface DiffStats {
+  totalFiles: number
+  totalAdditions: number
+  totalDeletions: number
+  addedFiles: number
+  removedFiles: number
+  modifiedFiles: number
+}
+

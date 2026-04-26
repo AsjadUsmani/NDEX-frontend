@@ -1,5 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" role="img" aria-label="NDEX logo">
-  <circle cx="50" cy="50" r="40" stroke="#00a19b" stroke-width="4"/>
-  <circle cx="50" cy="50" r="25" stroke="#e4dd3d" stroke-width="3"/>
-  <circle cx="50" cy="50" r="10" fill="#00a19b"/>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#00a19b"/>
+  <text x="16" y="23"
+    font-family="Geist, sans-serif"
+    font-size="16"
+    font-weight="800"
+    fill="#e4dd3d"
+    text-anchor="middle"
+    letter-spacing="-1">Nx</text>
 </svg>

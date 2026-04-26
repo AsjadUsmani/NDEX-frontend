@@ -12,12 +12,14 @@ interface AuthState {
   accessToken: string | null
   isAuthenticated: boolean
   isLoading: boolean
+  hasHydrated: boolean
   error: string | null
   login:    (email: string, password: string) => Promise<void>
   oauthLogin: (accessToken: string) => Promise<void>
   register: (email: string, password: string, username: string, display_name?: string) => Promise<void>
   logout:   () => Promise<void>
   refresh:  () => Promise<void>
+  checkSession: () => Promise<void>
   clearError: () => void
 }
 
@@ -25,7 +27,7 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null, accessToken: null,
-      isAuthenticated: false, isLoading: false, error: null,
+      isAuthenticated: false, isLoading: false, hasHydrated: false, error: null,
 
       login: async (email, password) => {
         set({ isLoading: true, error: null })
@@ -89,12 +91,31 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
+      checkSession: async () => {
+        try {
+          const { data } = await api.get('/api/auth/me')
+          set({ user: data.user, isAuthenticated: true })
+        } catch (err: any) {
+          if (err.response?.status === 401 || err.response?.status === 403) {
+            try {
+              await useAuthStore.getState().refresh()
+            } catch {
+              set({ user: null, accessToken: null, isAuthenticated: false })
+            }
+          }
+          // For other errors (500, network), keep the user logged in locally
+        }
+      },
+
       clearError: () => set({ error: null })
     }),
     {
       name: 'ndex-auth',
       partialize: (s) => ({ user: s.user, accessToken: s.accessToken,
-                             isAuthenticated: s.isAuthenticated })
+                             isAuthenticated: s.isAuthenticated }),
+      onRehydrateStorage: () => (state) => {
+        if (state) state.hasHydrated = true
+      }
     }
   )
 )

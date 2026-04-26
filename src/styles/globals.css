@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
 @import './theme.css';
 
 @tailwind base;
@@ -58,12 +58,11 @@
   --radius-lg:  14px;
   --radius-xl:  20px;
 
-  /* ── Fonts ── */
-  --font-display: 'Syne', 'IBM Plex Sans', sans-serif;
-  --font-body:    'Inter', 'IBM Plex Sans', sans-serif;
-  --font-mono:    'JetBrains Mono', monospace;
+  /* ── FONTS: ALL GEIST ── */
+  --font-display: 'Geist', sans-serif;
+  --font-body:    'Geist', sans-serif;
+  --font-mono:    'Geist Mono', monospace;
 }
-
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -78,12 +77,27 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-base);
-  color: var(--text-1);
-  line-height: 1.6;
+  font-feature-settings: 'ss01', 'ss02', 'cv01', 'cv02';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+  line-height: 1.6;
+  background-color: var(--bg-base);
+  color: var(--text-1);
   min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-feature-settings: 'liga' 1, 'calt' 1;
 }
 
 ::-webkit-scrollbar {

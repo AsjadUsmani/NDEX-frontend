@@ -69,6 +69,8 @@ export const githubApi = {
     api.get(`/api/github/pulls/${owner}/${repo}`),
   getIssues:       (owner: string, repo: string) =>
     api.get(`/api/github/issues/${owner}/${repo}`),
+  compareRefs: (owner: string, repo: string, base: string, head: string) =>
+    api.get(`/api/github/compare/${owner}/${repo}`, { params: { base, head } }),
 }
 
 export const codeApi = {
@@ -90,7 +92,7 @@ export const srsApi = {
   exportMarkdown: (jobId: string) =>
     api.get(`/api/srs/export/${jobId}`, { responseType: 'blob' }),
   getGenerateStreamUrl: (owner: string, repo: string) =>
-    `${api.defaults.baseURL}/api/srs/generate/stream/${owner}/${repo}`,
+    `${api.defaults.baseURL}/api/srs/generate?owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}`,
 }
 
 export default api

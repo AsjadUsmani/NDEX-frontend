@@ -147,7 +147,7 @@ export function renderTimeline(
       .style('left', `${event.pageX + 16}px`)
       .style('top', `${event.pageY - 20}px`)
       .html(
-        `<div style="font-family:JetBrains Mono, monospace;color:#e4dd3d;margin-bottom:6px">${commit.shortSha}</div>
+        `<div style="font-family:Geist Mono, monospace;color:#e4dd3d;margin-bottom:6px">${commit.shortSha}</div>
          <div style="margin-bottom:4px">${safeMessage}</div>
          <div style="color:#8fb5b3">${commit.author.name} · ${dateLabel}</div>
          <div style="color:#4d7c79">Files changed: ${commit.filesChanged.toLocaleString()}</div>`,

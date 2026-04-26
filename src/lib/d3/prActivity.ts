@@ -308,7 +308,7 @@ export function renderMergeGauge(
   textGroup.append('text')
     .attr('text-anchor', 'middle')
     .attr('fill', '#e4dd3d')
-    .style('font-family', 'Syne, sans-serif')
+    .style('font-family', 'Geist, sans-serif')
     .style('font-size', '32px')
     .style('font-weight', '700')
     .text(`${Math.round(mergeRate)}%`)
@@ -317,7 +317,7 @@ export function renderMergeGauge(
     .attr('y', 24)
     .attr('text-anchor', 'middle')
     .attr('fill', '#4d7c79')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
     .style('font-size', '12px')
     .text('Merge Rate')
 
@@ -325,7 +325,7 @@ export function renderMergeGauge(
     .attr('x', 20)
     .attr('y', 146)
     .attr('fill', '#4d7c79')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
     .style('font-size', '11px')
     .text('0%')
 
@@ -334,7 +334,7 @@ export function renderMergeGauge(
     .attr('y', 146)
     .attr('text-anchor', 'end')
     .attr('fill', '#4d7c79')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
     .style('font-size', '11px')
     .text('100%')
 
@@ -344,7 +344,7 @@ export function renderMergeGauge(
     .attr('y', 156)
     .attr('text-anchor', 'middle')
     .attr('fill', '#00a19b')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
     .style('font-size', '14px')
     .text(avgText)
 
@@ -445,7 +445,7 @@ export function renderPRSizeChart(
     .attr('text-anchor', 'middle')
     .attr('fill', '#8fb5b3')
     .style('font-size', '11px')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
     .text('Lines Added')
 
   g.append('text')
@@ -453,7 +453,7 @@ export function renderPRSizeChart(
     .attr('text-anchor', 'middle')
     .attr('fill', '#8fb5b3')
     .style('font-size', '11px')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
     .text('Lines Deleted')
 
   const circles = g.selectAll('circle')
@@ -535,7 +535,7 @@ export function renderContributorBars(
     .selectAll('text')
     .attr('fill', '#8fb5b3')
     .style('font-size', '11px')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
 
   g.selectAll('.domain').attr('stroke', 'rgba(0,161,155,0.20)')
   g.selectAll('line').attr('stroke', 'rgba(0,161,155,0.10)')
@@ -572,7 +572,7 @@ export function renderContributorBars(
     .attr('y', d => (yScale(d.login) ?? 0) + yScale.bandwidth() / 2 + 4)
     .attr('fill', '#8fb5b3')
     .style('font-size', '12px')
-    .style('font-family', 'JetBrains Mono, monospace')
+    .style('font-family', 'Geist Mono, monospace')
     .text(d => `${d.prCount}`)
 
   return () => {

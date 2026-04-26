@@ -1,22 +1,37 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { useAuthStore } from '../store/authStore'
 
 export default function AuthCallback() {
   const navigate = useNavigate()
+  const oauthLogin = useAuthStore(s => s.oauthLogin)
 
   useEffect(() => {
-    // Supabase handles the token exchange from URL hash
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
+    const handleCallback = async () => {
+      try {
+        // Supabase exchanges the URL hash/code into a real session
+        const { data, error } = await supabase.auth.getSession()
+
+        if (error || !data.session) {
+          console.error('OAuth callback: no session', error)
+          navigate('/', { replace: true })
+          return
+        }
+
+        // Exchange Supabase access token for our backend JWT
+        // This sets isAuthenticated: true in our store
+        await oauthLogin(data.session.access_token)
         navigate('/dashboard', { replace: true })
-      } else {
+      } catch (err) {
+        console.error('OAuth callback error:', err)
         navigate('/', { replace: true })
       }
-    })
-  }, [navigate])
+    }
 
-  // Show NeuralLoader while processing
+    handleCallback()
+  }, [navigate, oauthLogin])
+
   return (
     <div style={{
       height: '100vh',
