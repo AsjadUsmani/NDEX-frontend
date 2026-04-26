@@ -15,10 +15,8 @@ const DIAGRAM_META: { id: DiagramType; label: string; color: string }[] = [
 ]
 
 // Suppress Mermaid's default auto-scan on load (must run before any render)
-let mermaidInited = false
 void import('mermaid').then(mod => {
   mod.default.initialize({ startOnLoad: false })
-  mermaidInited = true
 })
 
 
@@ -68,7 +66,6 @@ async function renderMermaid(diagrams: GeneratedDiagram[]): Promise<Record<strin
       fontFamily: 'Geist, sans-serif',
     },
   })
-  mermaidInited = true
 
   const svgs: Record<string, string> = {}
   for (const d of diagrams) {

@@ -11,8 +11,10 @@ interface RepoConnectorProps {
 }
 
 export default function RepoConnector({ onConnect, loading, error, progress, progressLabel }: RepoConnectorProps) {
-  const { repoUrl, isConnected, metadata, reset } = useRepoStore()
+  const { repoUrl, owner, repoName, isConnected, metadata, reset } = useRepoStore()
   const [input, setInput] = useState(repoUrl)
+  const repoOwner = metadata?.owner || owner
+  const repoLabel = metadata?.name || repoName
 
   useEffect(() => {
     setInput(repoUrl)
@@ -43,7 +45,7 @@ export default function RepoConnector({ onConnect, loading, error, progress, pro
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <CheckCircle2 size={18} style={{ color: '#22c55e' }} />
             <div style={{ fontFamily: 'var(--font-body)', color: 'var(--text-1)' }}>
-              Connected to {metadata.owner}/{metadata.name}
+              Connected to {repoOwner}/{repoLabel}
             </div>
           </div>
           <button

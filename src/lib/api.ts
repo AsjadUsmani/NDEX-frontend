@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useAuthStore } from '../store/authStore'
+import { useUIStore } from '../store/uiStore'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001',
@@ -7,8 +8,16 @@ const api = axios.create({
   withCredentials: true,
 })
 
+let activeApiRequests = 0
+
+function syncApiLoading(delta: 1 | -1): void {
+  activeApiRequests = Math.max(0, activeApiRequests + delta)
+  useUIStore.getState().setLoading('api', activeApiRequests > 0)
+}
+
 // Attach token to every request
 api.interceptors.request.use((config) => {
+  syncApiLoading(1)
   const token = useAuthStore.getState().accessToken
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
@@ -19,8 +28,12 @@ let refreshing = false
 let queue: Array<(token: string) => void> = []
 
 api.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    syncApiLoading(-1)
+    return res
+  },
   async (err) => {
+    syncApiLoading(-1)
     const original = err.config
     if (err.response?.status === 401 &&
         err.response?.data?.code === 'TOKEN_EXPIRED' &&
@@ -74,12 +87,12 @@ export const githubApi = {
 }
 
 export const codeApi = {
-  getFile: (owner: string, repo: string, path: string, branch: string) =>
-    api.get(`/api/code/file/${owner}/${repo}`, { params: { path, branch } }),
+  getFile: (owner: string, repo: string, path: string, branch: string, signal?: AbortSignal) =>
+    api.get('/api/code/file', { params: { owner, repo, path, branch }, signal }),
   analyze: (owner: string, repo: string, data: any) =>
-    api.post(`/api/code/analyze/${owner}/${repo}`, data),
+    api.post('/api/code/analyze', { owner, repo, ...data }),
   getAnalyzeStreamUrl: (owner: string, repo: string, path: string, branch: string) =>
-    `${api.defaults.baseURL}/api/code/analyze/stream/${owner}/${repo}?path=${encodeURIComponent(path)}&branch=${encodeURIComponent(branch)}`,
+    `${api.defaults.baseURL}/api/code/analyze?owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}&filePath=${encodeURIComponent(path)}&branch=${encodeURIComponent(branch)}`,
 }
 
 export const srsApi = {

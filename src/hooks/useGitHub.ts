@@ -14,6 +14,29 @@ interface UseGitHubReturn {
   progressLabel: string
 }
 
+const emptyPRStats = {
+  totalPRs: 0,
+  openPRs: 0,
+  closedPRs: 0,
+  mergedPRs: 0,
+  mergeRate: 0,
+  avgMergeTimeHours: 0,
+  avgAdditions: 0,
+  avgDeletions: 0,
+  topContributors: [],
+  weeklyActivity: [],
+}
+
+const emptyIssueStats = {
+  totalIssues: 0,
+  openIssues: 0,
+  closedIssues: 0,
+  resolutionRate: 0,
+  avgResolutionHours: 0,
+  weeklyActivity: [],
+  topLabels: [],
+}
+
 const parseRepoInput = (input: string): { owner: string; repo: string } => {
   const trimmed = input.trim().replace(/\/+$/, '')
 
@@ -77,6 +100,8 @@ export function useGitHub(): UseGitHubReturn {
     setProgress(0)
     setProgressLabel('Validating repository...')
     repoStore.setError(null)
+    repoStore.setPRs([], emptyPRStats)
+    repoStore.setIssues([], emptyIssueStats)
     setGithubLoading('github-connect', true)
 
     try {
@@ -85,6 +110,7 @@ export function useGitHub(): UseGitHubReturn {
 
       const repoResponse = await githubApi.getRepo(parsed.owner, parsed.repo)
       const metadata = repoResponse.data as RepoMetadata
+      repoStore.setRepo(`https://github.com/${parsed.owner}/${parsed.repo}`)
       repoStore.setMetadata(metadata)
       setProgress(25)
       setProgressLabel('Fetching metadata...')
@@ -115,7 +141,6 @@ export function useGitHub(): UseGitHubReturn {
       repoStore.setCommits(commitsResponse.data as CommitData[])
       setProgress(100)
       setProgressLabel('Complete!')
-      repoStore.setRepo(repoUrl)
       toast.success(`Connected to ${metadata.owner}/${metadata.name}`)
     } catch (requestError) {
       const message = requestError instanceof Error ? requestError.message : 'Failed to connect repository.'

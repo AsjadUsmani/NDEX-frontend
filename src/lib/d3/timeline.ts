@@ -42,6 +42,7 @@ export function renderTimeline(
     .attr('height', height)
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
+    .style('display', 'block')
     .style('background', 'transparent')
     .style('overflow', 'hidden')
 
@@ -50,7 +51,7 @@ export function renderTimeline(
 
   const tooltip = d3.select(document.body)
     .append('div')
-    .style('position', 'absolute')
+    .style('position', 'fixed')
     .style('pointer-events', 'none')
     .style('opacity', '0')
     .style('background', '#101928')
@@ -61,6 +62,8 @@ export function renderTimeline(
     .style('font-size', '12px')
     .style('color', '#e8f4f3')
     .style('z-index', '9999')
+    .style('max-width', '280px')
+    .style('contain', 'layout style paint')
 
   if (data.length === 0 || innerW <= 0 || innerH <= 0) {
     return () => {
@@ -142,11 +145,15 @@ export function renderTimeline(
   const setTooltip = (event: MouseEvent, commit: CommitData): void => {
     const safeMessage = commit.message.length > 50 ? `${commit.message.slice(0, 50)}...` : commit.message
     const dateLabel = d3.timeFormat('%b %-d, %Y %H:%M')(new Date(commit.author.date))
+    const tooltipWidth = 280
+    const tooltipHeight = 110
+    const left = Math.min(event.clientX + 16, window.innerWidth - tooltipWidth - 12)
+    const top = Math.min(event.clientY - 20, window.innerHeight - tooltipHeight - 12)
 
     tooltip
       .style('opacity', '1')
-      .style('left', `${event.pageX + 16}px`)
-      .style('top', `${event.pageY - 20}px`)
+      .style('left', `${Math.max(12, left)}px`)
+      .style('top', `${Math.max(12, top)}px`)
       .html(
         `<div style="font-family:Geist Mono, monospace;color:#e4dd3d;margin-bottom:6px">${commit.shortSha}</div>
          <div style="margin-bottom:4px">${safeMessage}</div>

@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  GitCompare, FileText, Plus, Minus,
+  GitCompare, Plus, Minus,
   Files, Download, Filter
 } from 'lucide-react'
 import { useD3 } from '../hooks/useD3'
@@ -28,8 +28,7 @@ export default function DiffPage() {
   const { owner, repoName, isConnected } = useRepoStore()
   const [loading, setLoading]           = useState(false)
   const [comparison, setComparison]     = useState<CommitComparison | null>(null)
-  const [expandedFiles, setExpandedFiles] = useState<Set<string>>(new Set())
-  const [selectedFile, setSelectedFile] = useState<DiffFile | null>(null)
+  const [expandedFiles, setExpandedFiles] = useState<Set<string>>(new Set<string>())
   const [filter, setFilter]             = useState<FilterType>('all')
   const [searchQuery, setSearchQuery]   = useState('')
 
@@ -58,12 +57,12 @@ export default function DiffPage() {
     if (!owner || !repoName) return
     setLoading(true)
     setComparison(null)
-    setExpandedFiles(new Set())
+    setExpandedFiles(new Set<string>())
     try {
       const res = await githubApi.compareRefs(owner, repoName, base, head)
       setComparison(res.data)
       // Auto-expand first 3 files
-      const firstThree = new Set(
+      const firstThree = new Set<string>(
         res.data.files.slice(0, 3).map((f: DiffFile) => f.filename)
       )
       setExpandedFiles(firstThree)
@@ -85,7 +84,6 @@ export default function DiffPage() {
         width,
         height: Math.min(comparison.files.length * 32 + 40, 400),
         onFileClick: f => {
-          setSelectedFile(f)
           setExpandedFiles(prev => {
             const next = new Set(prev)
             next.has(f.filename)

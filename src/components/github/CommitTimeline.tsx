@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { subDays } from 'date-fns'
 import { useD3 } from '../../hooks/useD3'
 import { renderTimeline } from '../../lib/d3/timeline'
@@ -13,8 +13,9 @@ interface CommitTimelineProps {
 type RangeKey = '7D' | '30D' | '90D' | 'All'
 
 const ranges: RangeKey[] = ['7D', '30D', '90D', 'All']
+const noopHover = () => undefined
 
-export default function CommitTimeline({ commits, onCommitSelect }: CommitTimelineProps) {
+function CommitTimeline({ commits, onCommitSelect }: CommitTimelineProps) {
   const [activeRange, setActiveRange] = useState<RangeKey>('All')
   const loading = useUIStore(state => state.isLoading('github-connect'))
 
@@ -40,7 +41,7 @@ export default function CommitTimeline({ commits, onCommitSelect }: CommitTimeli
       height: 280,
       margin: { top: 16, right: 18, bottom: 40, left: 10 },
       onCommitClick: onCommitSelect,
-      onCommitHover: () => undefined,
+      onCommitHover: noopHover,
     })
   }, [filtered, onCommitSelect])
 
@@ -106,3 +107,5 @@ export default function CommitTimeline({ commits, onCommitSelect }: CommitTimeli
     </section>
   )
 }
+
+export default memo(CommitTimeline)

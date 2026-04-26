@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { codeApi } from '../lib/api'
 import { useRepoStore } from '../store/repoStore'
+import { useUIStore } from '../store/uiStore'
 import type { AnalysisResult } from '../types/index.ts'
 
 interface UseCodeAnalysisReturn {
@@ -26,6 +27,7 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
   const owner = useRepoStore(state => state.owner)
   const repoName = useRepoStore(state => state.repoName)
   const defaultBranch = useRepoStore(state => state.metadata?.defaultBranch || 'main')
+  const setLoadingState = useUIStore(state => state.setLoading)
 
   const [progress, setProgress] = useState(0)
   const [progressLabel, setProgressLabel] = useState('')
@@ -44,11 +46,12 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
     }
 
     if (status === 'analyzing') {
+      setLoadingState('code-analysis', false)
       setStatus('idle')
       setProgress(0)
       setProgressLabel('')
     }
-  }, [status])
+  }, [setLoadingState, status])
 
   useEffect(() => {
     return () => {
@@ -63,6 +66,7 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
       if (!owner || !repoName) {
         setError('Connect a repository first.')
         setStatus('error')
+        setLoadingState('code-analysis', false)
         return
       }
 
@@ -70,6 +74,7 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
       if (!normalizedPath) {
         setError('Select a file to analyze.')
         setStatus('error')
+        setLoadingState('code-analysis', false)
         return
       }
 
@@ -82,10 +87,12 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
         setStatus('complete')
         setProgress(100)
         setProgressLabel('Loaded from cache')
+        setLoadingState('code-analysis', false)
         return
       }
 
       cancel()
+      setLoadingState('code-analysis', true)
       setStatus('analyzing')
       setProgress(0)
       setProgressLabel('Initializing analysis...')
@@ -107,6 +114,7 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
           if (payload.error) {
             setError(payload.error)
             setStatus('error')
+            setLoadingState('code-analysis', false)
             source.close()
             eventSourceRef.current = null
             return
@@ -124,12 +132,14 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
             setStatus('complete')
             setProgress(100)
             setProgressLabel(payload.label || 'Analysis complete!')
+            setLoadingState('code-analysis', false)
             source.close()
             eventSourceRef.current = null
           }
         } catch {
           setError('Failed to parse analysis stream event.')
           setStatus('error')
+          setLoadingState('code-analysis', false)
           source.close()
           eventSourceRef.current = null
         }
@@ -140,9 +150,10 @@ export function useCodeAnalysis(): UseCodeAnalysisReturn {
         eventSourceRef.current = null
         setStatus(prev => (prev === 'complete' ? prev : 'error'))
         setError(prev => prev || 'Analysis stream disconnected.')
+        setLoadingState('code-analysis', false)
       }
     },
-    [cachedResults, cancel, defaultBranch, owner, repoName],
+    [cachedResults, cancel, defaultBranch, owner, repoName, setLoadingState],
   )
 
   return useMemo(

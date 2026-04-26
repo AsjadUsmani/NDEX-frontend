@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { githubApi } from '../lib/api'
 import { useRepoStore } from '../store/repoStore'
+import { useUIStore } from '../store/uiStore'
 
 interface UsePRActivityReturn {
   fetchPRActivity: () => Promise<void>
@@ -16,6 +17,7 @@ export function usePRActivity(): UsePRActivityReturn {
   const issues = useRepoStore(state => state.issues)
   const setPRs = useRepoStore(state => state.setPRs)
   const setIssues = useRepoStore(state => state.setIssues)
+  const setLoadingState = useUIStore(state => state.setLoading)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -27,6 +29,7 @@ export function usePRActivity(): UsePRActivityReturn {
 
     setLoading(true)
     setError(null)
+    setLoadingState('github-activity', true)
 
     try {
       const [prsResponse, issuesResponse] = await Promise.all([
@@ -46,8 +49,9 @@ export function usePRActivity(): UsePRActivityReturn {
       throw requestError instanceof Error ? requestError : new Error(message)
     } finally {
       setLoading(false)
+      setLoadingState('github-activity', false)
     }
-  }, [owner, repoName, setIssues, setPRs])
+  }, [owner, repoName, setIssues, setLoadingState, setPRs])
 
   useEffect(() => {
     if (!owner || !repoName) {

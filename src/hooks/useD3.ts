@@ -20,13 +20,16 @@ export function useD3<T extends HTMLElement = HTMLDivElement>(
     let cleanup: (() => void) | void
     let debounceTimer: number | null = null
     let frameId: number | null = null
+    let reconnectFrameId: number | null = null
     let lastWidth  = -1
     let lastHeight = -1
+    let isRendering = false
 
     const runRender = (force = false): void => {
-      const rect          = container.getBoundingClientRect()
-      const currentWidth  = Math.round(rect.width)
-      const currentHeight = Math.round(rect.height)
+      if (isRendering) return
+
+      const currentWidth  = Math.round(container.clientWidth)
+      const currentHeight = Math.round(container.clientHeight)
 
       if (!force && lastWidth === currentWidth && lastHeight === currentHeight) return
 
@@ -35,8 +38,9 @@ export function useD3<T extends HTMLElement = HTMLDivElement>(
 
       if (cleanup) cleanup()
 
-      // Disconnect during render to prevent the ResizeObserver loop:
-      // D3 DOM mutations change the bounding rect → observer fires → infinite loop
+      // Disconnect during render so D3 DOM writes do not immediately feed back
+      // into ResizeObserver and trigger another full render cycle.
+      isRendering = true
       observer.disconnect()
       try {
         cleanup = renderFnRef.current(container, {
@@ -44,11 +48,15 @@ export function useD3<T extends HTMLElement = HTMLDivElement>(
           height: Math.max(0, currentHeight),
         })
       } finally {
-        observer.observe(container)
+        reconnectFrameId = window.requestAnimationFrame(() => {
+          isRendering = false
+          observer.observe(container)
+        })
       }
     }
 
     const observer = new ResizeObserver(() => {
+      if (isRendering) return
       if (debounceTimer) window.clearTimeout(debounceTimer)
       debounceTimer = window.setTimeout(() => runRender(false), 150)
     })
@@ -60,6 +68,7 @@ export function useD3<T extends HTMLElement = HTMLDivElement>(
       observer.disconnect()
       if (debounceTimer) window.clearTimeout(debounceTimer)
       if (frameId)       window.cancelAnimationFrame(frameId)
+      if (reconnectFrameId) window.cancelAnimationFrame(reconnectFrameId)
       if (cleanup)       cleanup()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

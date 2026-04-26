@@ -1,4 +1,39 @@
-// Deprecated: use store/authStore.ts instead
+import { useAuthStore } from '../store/authStore'
+
 export const useAuth = () => {
-  return {}
+  const {
+    user,
+    accessToken,
+    isAuthenticated,
+    isLoading,
+    hasHydrated,
+    error,
+    login,
+    oauthLogin,
+    register,
+    logout,
+    refresh,
+    checkSession,
+    initializeSession,
+    clearError,
+    loadUserData,
+  } = useAuthStore()
+
+  return {
+    user,
+    accessToken,
+    isAuthenticated,
+    isLoading,
+    hasHydrated,
+    error,
+    login,
+    oauthLogin,
+    register,
+    logout,
+    refresh,
+    checkSession,
+    initializeSession,
+    clearError,
+    loadUserData,
+  }
 }

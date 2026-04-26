@@ -64,7 +64,7 @@ export function renderDiffWaterfall(
         .select('.row-bg')
         .attr('opacity', 0.15)
     })
-    .on('mouseleave', (_e, d) => {
+    .on('mouseleave', (_e) => {
       config.onFileHover(null)
       d3.select(_e.currentTarget as Element)
         .select('.row-bg')

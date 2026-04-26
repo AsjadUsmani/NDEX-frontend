@@ -9,6 +9,7 @@ import GuestRoute from './components/auth/GuestRoute'
 import CommandPalette from './components/ui/CommandPalette'
 import Sidebar from './components/layout/Sidebar'
 import TopBar from './components/layout/TopBar'
+import GlobalLoadingOverlay from './components/layout/GlobalLoadingOverlay'
 
 // Pages
 import HomePage from './pages/HomePage'
@@ -110,7 +111,7 @@ function KeyboardShortcuts() {
 
 export default function App() {
   const { activeModal, closeModal, theme, hasHydrated: uiHydrated } = useUIStore()
-  const { isAuthenticated, hasHydrated: authHydrated, checkSession } = useAuthStore()
+  const { hasHydrated: authHydrated, initializeSession } = useAuthStore()
 
   useEffect(() => {
     if (uiHydrated) {
@@ -119,10 +120,10 @@ export default function App() {
   }, [theme, uiHydrated])
 
   useEffect(() => {
-    if (authHydrated && isAuthenticated) {
-      checkSession()
+    if (authHydrated) {
+      initializeSession()
     }
-  }, [authHydrated, isAuthenticated, checkSession])
+  }, [authHydrated, initializeSession])
 
   return (
     <BrowserRouter>
@@ -132,6 +133,7 @@ export default function App() {
           <CommandPalette onClose={closeModal} />
         )}
       </AnimatePresence>
+      <GlobalLoadingOverlay />
 
       <Routes>
         <Route path="/login"    element={<GuestRoute><Login /></GuestRoute>} />

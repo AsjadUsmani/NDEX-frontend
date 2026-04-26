@@ -6,6 +6,7 @@ import PageShell from '../components/layout/PageShell'
 import FileTreeBrowser from '../components/code/FileTreeBrowser'
 import CodeInputPanel from '../components/code/CodeInputPanel'
 import { useRepoStore } from '../store/repoStore'
+import { useUIStore } from '../store/uiStore'
 import { codeApi } from '../lib/api'
 
 type TopTab = 'paste' | 'browse'
@@ -34,23 +35,49 @@ export default function CodeAnalysis() {
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
   const [rawCode, setRawCode]           = useState('')
   const [rawLoading, setRawLoading]     = useState(false)
+  const [rawError, setRawError]         = useState<string | null>(null)
   const [topTab, setTopTab]             = useState<TopTab>('paste')
+  const setLoadingState                 = useUIStore(state => state.setLoading)
 
   // Fetch raw file content when a file is selected in Browse tab
   useEffect(() => {
-    if (!selectedFile || !owner || !repoName) { setRawCode(''); return }
+    if (!selectedFile || !owner || !repoName) {
+      setRawCode('')
+      setRawError(null)
+      return
+    }
     const controller = new AbortController()
     setRawLoading(true)
+    setRawError(null)
+    setLoadingState('code-file', true)
     void codeApi
-      .getFile(owner, repoName, selectedFile, defaultBranch)
+      .getFile(owner, repoName, selectedFile, defaultBranch, controller.signal)
       .then(response => {
-        if (!controller.signal.aborted)
+        if (!controller.signal.aborted) {
           setRawCode((response.data as { content?: string })?.content || '')
+          setRawError(null)
+        }
       })
-      .catch(() => { if (!controller.signal.aborted) setRawCode('') })
-      .finally(() => { if (!controller.signal.aborted) setRawLoading(false) })
-    return () => controller.abort()
-  }, [defaultBranch, owner, repoName, selectedFile])
+      .catch(error => {
+        if (!controller.signal.aborted) {
+          setRawCode('')
+          setRawError(
+            (error as { response?: { data?: { error?: string } } })?.response?.data?.error ||
+            'File could not be loaded.',
+          )
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setRawLoading(false)
+        }
+        setLoadingState('code-file', false)
+      })
+    return () => {
+      controller.abort()
+      setLoadingState('code-file', false)
+    }
+  }, [defaultBranch, owner, repoName, selectedFile, setLoadingState])
 
 
 
@@ -140,15 +167,35 @@ export default function CodeAnalysis() {
                   </span>
                 </div>
 
-                <SyntaxHighlighter
-                  language={mapHighlightLanguage(selectedFile)}
-                  style={atomDark}
-                  showLineNumbers
-                  customStyle={{ background: '#05080f', margin: 0, minHeight: '100%', fontSize: 13 }}
-                  lineNumberStyle={{ color: '#2a4a48', minWidth: 42 }}
-                >
-                  {rawLoading ? '// Loading...' : rawCode || '// File is empty or could not be loaded.'}
-                </SyntaxHighlighter>
+                {rawLoading ? (
+                  <div style={{ padding: 16, display: 'grid', gap: 10 }}>
+                    {Array.from({ length: 12 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="ndex-skeleton"
+                        style={{
+                          height: 14,
+                          borderRadius: 6,
+                          width: `${92 - (index % 4) * 12}%`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                ) : rawError ? (
+                  <div style={{ padding: 18, color: '#ff9b9b', fontFamily: 'var(--font-mono)', fontSize: 12 }}>
+                    {rawError}
+                  </div>
+                ) : (
+                  <SyntaxHighlighter
+                    language={mapHighlightLanguage(selectedFile)}
+                    style={atomDark}
+                    showLineNumbers
+                    customStyle={{ background: '#05080f', margin: 0, minHeight: '100%', fontSize: 13 }}
+                    lineNumberStyle={{ color: '#2a4a48', minWidth: 42 }}
+                  >
+                    {rawCode || '// File is empty.'}
+                  </SyntaxHighlighter>
+                )}
               </div>
             )}
           </section>
@@ -157,4 +204,3 @@ export default function CodeAnalysis() {
     </PageShell>
   )
 }
-

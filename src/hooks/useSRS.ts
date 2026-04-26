@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { srsApi } from '../lib/api'
 import { useSRSStore } from '../store/srsStore'
+import { useUIStore } from '../store/uiStore'
 import type { GeneratedSRS } from '../types/index.ts'
 
 type SRSStatus = 'idle' | 'generating' | 'complete' | 'error'
@@ -37,12 +38,14 @@ export function useSRS(): UseSRSReturn {
 
   const sourceRef = useRef<EventSource | null>(null)
   const setDocumentInStore = useSRSStore(state => state.setDocument)
+  const setLoadingState = useUIStore(state => state.setLoading)
 
   const cancel = (): void => {
     if (sourceRef.current) {
       sourceRef.current.close()
       sourceRef.current = null
     }
+    setLoadingState('srs-generate', false)
     setProgress(0)
     setProgressLabel('')
     setCurrentStep('')
@@ -66,6 +69,7 @@ export function useSRS(): UseSRSReturn {
     setCurrentStep('init')
     setStatus('generating')
     setError(null)
+    setLoadingState('srs-generate', true)
 
     const source = new EventSource(srsApi.getGenerateStreamUrl(owner, repo))
     sourceRef.current = source
@@ -87,6 +91,7 @@ export function useSRS(): UseSRSReturn {
           } else {
             toast.success('Groq SRS generation complete')
           }
+          setLoadingState('srs-generate', false)
           source.close()
           sourceRef.current = null
           return
@@ -97,6 +102,7 @@ export function useSRS(): UseSRSReturn {
           setError(messageText)
           setStatus('error')
           toast.error(messageText)
+          setLoadingState('srs-generate', false)
           source.close()
           sourceRef.current = null
         }
@@ -104,6 +110,7 @@ export function useSRS(): UseSRSReturn {
         setError('Failed to parse generation stream response')
         setStatus('error')
         toast.error('Failed to parse generation stream response')
+        setLoadingState('srs-generate', false)
         source.close()
         sourceRef.current = null
       }
@@ -116,6 +123,7 @@ export function useSRS(): UseSRSReturn {
       setError('SRS stream connection failed')
       setStatus('error')
       toast.error('SRS stream connection failed')
+      setLoadingState('srs-generate', false)
       source.close()
       sourceRef.current = null
     }

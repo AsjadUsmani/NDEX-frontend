@@ -33,7 +33,11 @@ export default function TopBar() {
   const { sidebarCollapsed, theme, toggleTheme } = useUIStore()
   const isAnyLoading = useUIStore(state => state.isAnyLoading())
   const title = titleMap[location.pathname] ?? 'NDEX'
-  const repoLabel = metadata ? `${metadata.owner}/${metadata.name}` : isConnected ? `${owner}/${repoName}` : ''
+  const repoLabel = metadata
+    ? `${metadata.owner || owner}/${metadata.name || repoName}`
+    : isConnected
+      ? `${owner}/${repoName}`
+      : ''
   const sidebarWidth = sidebarCollapsed ? 64 : 240
 
   return (

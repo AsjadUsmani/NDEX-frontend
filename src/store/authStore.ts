@@ -23,6 +23,7 @@ interface AuthState {
   logout:   () => Promise<void>
   refresh:  () => Promise<void>
   checkSession: () => Promise<void>
+  initializeSession: () => Promise<void>
   clearError: () => void
   
   loadUserData: () => Promise<void>
@@ -38,6 +39,14 @@ function setAuthCookie(token: string) {
 // Utility to clear auth cookie
 function clearAuthCookie() {
   document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict'
+}
+
+function applyAccessToken(token: string | null) {
+  if (token) {
+    api.defaults.headers.common.Authorization = `Bearer ${token}`
+  } else {
+    delete api.defaults.headers.common.Authorization
+  }
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -68,7 +77,7 @@ export const useAuthStore = create<AuthState>()(
           const { data } = await api.post('/api/auth/login', { email, password })
           const token = data.accessToken
           setAuthCookie(token)
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          applyAccessToken(token)
           set({ user: data.user, accessToken: token,
                 isAuthenticated: true, isLoading: false })
           
@@ -87,7 +96,7 @@ export const useAuthStore = create<AuthState>()(
           const { data } = await api.post('/api/auth/oauth', { accessToken })
           const token = data.accessToken
           setAuthCookie(token)
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          applyAccessToken(token)
           set({ user: data.user, accessToken: token,
                 isAuthenticated: true, isLoading: false })
           
@@ -107,7 +116,7 @@ export const useAuthStore = create<AuthState>()(
             { email, password, username, display_name })
           const token = data.accessToken
           setAuthCookie(token)
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          applyAccessToken(token)
           set({ user: data.user, accessToken: token,
                 isAuthenticated: true, isLoading: false })
           
@@ -128,8 +137,8 @@ export const useAuthStore = create<AuthState>()(
         }
         // Always clear local state even if API call fails
         clearAuthCookie()
-        delete api.defaults.headers.common['Authorization']
-        set({ user: null, accessToken: null, isAuthenticated: false })
+        applyAccessToken(null)
+        set({ user: null, accessToken: null, isAuthenticated: false, isLoading: false, error: null })
         
         // Reset other stores
         useRepoStore.getState().reset()
@@ -141,18 +150,19 @@ export const useAuthStore = create<AuthState>()(
           const { data } = await api.post('/api/auth/refresh')
           const token = data.accessToken
           setAuthCookie(token)
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          applyAccessToken(token)
           set({ accessToken: token, isAuthenticated: true })
         } catch {
           // If refresh fails, logout the user
-          get().logout()
+          await get().logout()
+          throw new Error('Session refresh failed')
         }
       },
 
       checkSession: async () => {
         try {
           const { data } = await api.get('/api/auth/me')
-          set({ user: data.user, isAuthenticated: true })
+          set({ user: data.user, isAuthenticated: true, error: null })
           
           await get().loadUserData()
         } catch (err: unknown) {
@@ -167,13 +177,51 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
+      initializeSession: async () => {
+        const { accessToken, isAuthenticated } = get()
+        set({ isLoading: true, error: null })
+
+        try {
+          if (accessToken) {
+            applyAccessToken(accessToken)
+            await get().checkSession()
+            set({ isLoading: false })
+            return
+          }
+
+          if (isAuthenticated) {
+            await get().checkSession()
+            set({ isLoading: false })
+            return
+          }
+
+          try {
+            await get().refresh()
+            await get().checkSession()
+          } catch {
+            applyAccessToken(null)
+            set({
+              user: null,
+              accessToken: null,
+              isAuthenticated: false,
+              error: null,
+            })
+          }
+        } finally {
+          set({ isLoading: false })
+        }
+      },
+
       clearError: () => set({ error: null })
     }),
     {
-      name: 'ndex-auth',
+      name: 'ndex-app-auth',
       partialize: (s) => ({ user: s.user, accessToken: s.accessToken,
                              isAuthenticated: s.isAuthenticated }),
       onRehydrateStorage: () => (state) => {
+        if (state?.accessToken) {
+          applyAccessToken(state.accessToken)
+        }
         if (state) state.hasHydrated = true
       }
     }

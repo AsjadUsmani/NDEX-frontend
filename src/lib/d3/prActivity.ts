@@ -19,7 +19,7 @@ interface WeeklyCombinedData {
 function createTooltip() {
   return d3.select(document.body)
     .append('div')
-    .style('position', 'absolute')
+    .style('position', 'fixed')
     .style('pointer-events', 'none')
     .style('opacity', '0')
     .style('background', '#101928')
@@ -30,6 +30,8 @@ function createTooltip() {
     .style('font-size', '12px')
     .style('color', '#e8f4f3')
     .style('z-index', '9999')
+    .style('max-width', '280px')
+    .style('contain', 'layout style paint')
 }
 
 function parseWeekLabel(week: string): Date {
@@ -47,6 +49,19 @@ function startOfWeekUTC(date: Date): string {
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max)
+}
+
+function positionTooltip(
+  tooltip: d3.Selection<HTMLDivElement, unknown, null, undefined>,
+  event: MouseEvent,
+  size: { width: number; height: number } = { width: 280, height: 110 },
+): void {
+  const left = Math.min(event.clientX + 16, window.innerWidth - size.width - 12)
+  const top = Math.min(event.clientY - 20, window.innerHeight - size.height - 12)
+
+  tooltip
+    .style('left', `${Math.max(12, left)}px`)
+    .style('top', `${Math.max(12, top)}px`)
 }
 
 function getLastWeeks(count: number): string[] {
@@ -122,6 +137,7 @@ export function renderActivityChart(
     .attr('height', height)
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
+    .style('display', 'block')
 
   const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
 
@@ -214,8 +230,6 @@ export function renderActivityChart(
       const weekLabel = tooltipFormatter(parseWeekLabel(item.week))
       tooltip
         .style('opacity', '1')
-        .style('left', `${event.pageX + 16}px`)
-        .style('top', `${event.pageY - 20}px`)
         .html(`
           <div style="font-weight:600;margin-bottom:6px">${weekLabel}</div>
           <div style="color:#00a19b">PRs opened: ${item.openedPRs}</div>
@@ -223,10 +237,11 @@ export function renderActivityChart(
           <div style="color:#3b82f6">Issues opened: ${item.openedIssues}</div>
           <div style="color:#00c896">Issues closed: ${item.closedIssues}</div>
         `)
+      positionTooltip(tooltip, event as MouseEvent, { width: 280, height: 120 })
       config.onWeekHover(item.week, item)
     })
       .on('mousemove', function handleMove(event, item) {
-        tooltip.style('left', `${event.pageX + 16}px`).style('top', `${event.pageY - 20}px`)
+        positionTooltip(tooltip, event as MouseEvent, { width: 280, height: 120 })
         config.onWeekHover(item.week, item)
       })
       .on('mouseleave', () => {
@@ -278,6 +293,7 @@ export function renderMergeGauge(
     .attr('height', height)
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
+    .style('display', 'block')
 
   const gaugeColor = mergeRate < 40 ? '#ff5e5e' : mergeRate < 70 ? '#e4dd3d' : mergeRate < 85 ? '#00a19b' : '#00c896'
   const arc = d3.arc()
@@ -371,6 +387,7 @@ export function renderPRSizeChart(
     .attr('height', height)
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
+    .style('display', 'block')
 
   const tooltip = createTooltip()
   if (!prs.length) {
@@ -467,24 +484,31 @@ export function renderPRSizeChart(
     .attr('stroke-width', 1.5)
     .style('cursor', 'pointer')
 
-  circles.transition().duration(400).delay((_, index) => index * 10).ease(d3.easeCubicOut).attr('opacity', 1)
+  circles
+    .attr('opacity', 0)
+    .transition()
+    .duration(400)
+    .delay((_, index) => index * 10)
+    .ease(d3.easeCubicOut)
+    .attr('opacity', 1)
 
   circles.on('mouseenter', function handleEnter(event, pr) {
+    d3.interrupt(this)
     d3.select(this).transition().duration(200).attr('r', rScale(pr.changedFiles) * 1.5)
     const title = pr.title.length > 40 ? `${pr.title.slice(0, 40)}...` : pr.title
     tooltip
       .style('opacity', '1')
-      .style('left', `${event.pageX + 16}px`)
-      .style('top', `${event.pageY - 20}px`)
       .html(`
         <div style="font-weight:600;margin-bottom:4px">#${pr.number} ${title}</div>
         <div style="color:#8fb5b3">${pr.author}</div>
         <div style="color:#00a19b">+${pr.additions.toLocaleString()} / -${pr.deletions.toLocaleString()}</div>
         <div style="color:#4d7c79">${pr.merged ? 'Merged' : pr.state.toUpperCase()}</div>
       `)
+    positionTooltip(tooltip, event as MouseEvent)
   }).on('mousemove', function handleMove(event) {
-    tooltip.style('left', `${event.pageX + 16}px`).style('top', `${event.pageY - 20}px`)
+    positionTooltip(tooltip, event as MouseEvent)
   }).on('mouseleave', function handleLeave(_event, pr) {
+    d3.interrupt(this)
     d3.select(this).transition().duration(200).attr('r', rScale(pr.changedFiles))
     tooltip.style('opacity', '0')
   }).on('click', (_, pr) => config.onPRClick(pr))

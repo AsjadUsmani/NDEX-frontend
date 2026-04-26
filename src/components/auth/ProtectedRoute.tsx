@@ -5,9 +5,9 @@ import { Loader2 } from 'lucide-react'
 interface Props { children: React.ReactNode }
 
 export default function ProtectedRoute({ children }: Props) {
-  const { isAuthenticated, hasHydrated } = useAuthStore()
+  const { isAuthenticated, hasHydrated, isLoading } = useAuthStore()
 
-  if (!hasHydrated) {
+  if (!hasHydrated || isLoading) {
     return (
       <div style={{
         display: 'flex', height: '100vh', alignItems: 'center',

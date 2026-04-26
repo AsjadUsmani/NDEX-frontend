@@ -89,7 +89,15 @@ export const useRepoStore = create<RepoState>()(
         })
       },
       setMetadata: (data: RepoMetadata) => {
-        set({ metadata: data, lastFetched: new Date(), error: null, isConnected: true })
+        set(state => ({
+          metadata: data,
+          lastFetched: new Date(),
+          error: null,
+          isConnected: true,
+          owner: state.owner || data.owner,
+          repoName: state.repoName || data.name,
+          repoUrl: state.repoUrl || data.url,
+        }))
         get().saveToSupabase()
       },
       setCommits: (commits: CommitData[]) => {
@@ -118,17 +126,35 @@ export const useRepoStore = create<RepoState>()(
       reset: () => set({ ...initialState }),
 
       saveToSupabase: async () => {
-        const { isConnected, repoUrl, owner, repoName, metadata, fileTree, commits, branches, contributors, languages } = get()
-        if (!isConnected) return
-
         if (saveTimer) clearTimeout(saveTimer)
         
         saveTimer = setTimeout(async () => {
           try {
-            await reposApi.save({
-              github_url: repoUrl,
+            const {
+              isConnected,
+              repoUrl,
               owner,
-              repo_name: repoName,
+              repoName,
+              metadata,
+              fileTree,
+              commits,
+              branches,
+              contributors,
+              languages,
+            } = get()
+            const parsed = parseRepoInput(repoUrl || `${owner}/${repoName}`)
+            const resolvedOwner = owner || parsed.owner || metadata?.owner || ''
+            const resolvedRepoName = repoName || parsed.repoName || metadata?.name || ''
+            const resolvedRepoUrl = repoUrl || parsed.repoUrl || metadata?.url || ''
+
+            if (!isConnected || !resolvedOwner || !resolvedRepoName || !resolvedRepoUrl) {
+              return
+            }
+
+            await reposApi.save({
+              github_url: resolvedRepoUrl,
+              owner: resolvedOwner,
+              repo_name: resolvedRepoName,
               description: metadata?.description || '',
               stars: metadata?.stars || 0,
               forks: metadata?.forks || 0,
@@ -151,21 +177,30 @@ export const useRepoStore = create<RepoState>()(
           const { data } = await reposApi.list()
           if (data && data.length > 0) {
             const last = data[0] as SavedRepository
+            const parsed = parseRepoInput(last.github_url || `${last.owner}/${last.repo_name}`)
+            const resolvedOwner = last.owner || parsed.owner
+            const resolvedRepoName = last.repo_name || parsed.repoName
+            const resolvedRepoUrl = parsed.repoUrl || last.github_url
+
+            if (!resolvedOwner || !resolvedRepoName || !resolvedRepoUrl) {
+              return
+            }
+
             set({
-              repoUrl: last.github_url,
-              owner: last.owner,
-              repoName: last.repo_name,
-              isConnected: true,
+              repoUrl: resolvedRepoUrl,
+              owner: resolvedOwner,
+              repoName: resolvedRepoName,
+              isConnected: Boolean(resolvedOwner && resolvedRepoName),
               metadata: {
-                name: last.repo_name,
-                owner: last.owner,
+                name: resolvedRepoName,
+                owner: resolvedOwner,
                 description: last.description,
                 stars: last.stars,
                 forks: last.forks,
                 language: last.language,
                 isPrivate: last.is_private,
                 defaultBranch: 'main',
-                url: last.github_url,
+                url: resolvedRepoUrl,
                 createdAt: last.created_at,
                 updatedAt: last.last_analyzed || last.created_at,
                 openIssues: 0,
