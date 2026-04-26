@@ -63,8 +63,8 @@ export const useAuthStore = create<AuthState>()(
           
           // Load preferences
           const { data: prefs } = await preferencesApi.get()
-          if (prefs) {
-            useUIStore.getState().setTheme(prefs.theme || 'dark')
+          if (prefs?.theme === 'dark' || prefs?.theme === 'light') {
+            useUIStore.getState().setTheme(prefs.theme)
           }
         } catch (e) {
           console.error('Failed to load user data:', e)

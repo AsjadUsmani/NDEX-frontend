@@ -53,23 +53,11 @@ export default function Sidebar() {
           overflow: 'hidden',
         }}
       >
-        <div
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 12,
-            background: 'var(--teal)',
-            color: 'var(--gold)',
-            display: 'grid',
-            placeItems: 'center',
-            fontFamily: 'var(--font-display)',
-            fontSize: 16,
-            fontWeight: 800,
-            flex: '0 0 auto',
-          }}
-        >
-          Nx
-        </div>
+        <img
+          src="/ndex-logo.svg"
+          alt="NDEX"
+          style={{ width: 36, height: 36, borderRadius: 12, flex: '0 0 auto' }}
+        />
         <AnimatePresence initial={false} mode="wait">
           {!sidebarCollapsed ? (
             <motion.span

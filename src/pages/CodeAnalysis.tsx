@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowLeft, Code2, FolderOpen } from 'lucide-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import PageShell from '../components/layout/PageShell'
 import FileTreeBrowser from '../components/code/FileTreeBrowser'
 import CodeInputPanel from '../components/code/CodeInputPanel'
@@ -38,6 +39,14 @@ export default function CodeAnalysis() {
   const [rawError, setRawError]         = useState<string | null>(null)
   const [topTab, setTopTab]             = useState<TopTab>('paste')
   const setLoadingState                 = useUIStore(state => state.setLoading)
+  const theme                           = useUIStore(state => state.theme)
+
+  useEffect(() => {
+    setSelectedFile(null)
+    setRawCode('')
+    setRawError(null)
+    setRawLoading(false)
+  }, [owner, repoName, defaultBranch])
 
   // Fetch raw file content when a file is selected in Browse tab
   useEffect(() => {
@@ -188,10 +197,19 @@ export default function CodeAnalysis() {
                 ) : (
                   <SyntaxHighlighter
                     language={mapHighlightLanguage(selectedFile)}
-                    style={atomDark}
+                    style={theme === 'dark' ? atomDark : oneLight}
                     showLineNumbers
-                    customStyle={{ background: '#05080f', margin: 0, minHeight: '100%', fontSize: 13 }}
-                    lineNumberStyle={{ color: '#2a4a48', minWidth: 42 }}
+                    customStyle={{
+                      background: theme === 'dark' ? '#05080f' : '#f8fafc',
+                      color: theme === 'dark' ? '#e6edf3' : '#0f172a',
+                      margin: 0,
+                      minHeight: '100%',
+                      fontSize: 13,
+                    }}
+                    lineNumberStyle={{
+                      color: theme === 'dark' ? '#2a4a48' : '#94a3b8',
+                      minWidth: 42,
+                    }}
                   >
                     {rawCode || '// File is empty.'}
                   </SyntaxHighlighter>

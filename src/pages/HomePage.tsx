@@ -9,7 +9,6 @@ import {
   Zap,
   Globe,
   ArrowRight,
-  Database,
   Cpu,
   Sun,
   Moon
@@ -70,12 +69,11 @@ export default function HomePage() {
         zIndex: 10
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 32, height: 32, background: 'var(--teal)', borderRadius: 8,
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }}>
-            <Database size={20} color="white" />
-          </div>
+          <img
+            src="/ndex-logo.svg"
+            alt="NDEX"
+            style={{ width: 32, height: 32, borderRadius: 8, display: 'block' }}
+          />
           <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-1)', letterSpacing: '-0.03em' }}>NDEX</span>
         </div>
         <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>

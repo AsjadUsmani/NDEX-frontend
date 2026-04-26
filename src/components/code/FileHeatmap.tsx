@@ -21,8 +21,17 @@ function countFiles(nodes: FileNode[]): number {
   }, 0)
 }
 
+function countChangedFiles(commits: CommitData[]): number {
+  const paths = new Set<string>()
+  commits.forEach(commit => {
+    commit.changedFiles?.forEach(path => paths.add(path))
+  })
+  return paths.size
+}
+
 export default function FileHeatmap({ files, commits, selectedFile, onFileSelect }: FileHeatmapProps) {
   const totalFiles = useMemo(() => countFiles(files), [files])
+  const changedFiles = useMemo(() => countChangedFiles(commits), [commits])
 
   const containerRef = useD3<HTMLDivElement>(
     (container, dimensions) =>
@@ -62,8 +71,12 @@ export default function FileHeatmap({ files, commits, selectedFile, onFileSelect
           <span>{commits.length} commits</span>
           <span>•</span>
           <span>{totalFiles} files</span>
+          <span>•</span>
+          <span>{changedFiles.toLocaleString()} touched</span>
         </div>
-        <div style={{ color: 'var(--text-4)', fontSize: 12 }}>Click any tile to open that file</div>
+        <div style={{ color: 'var(--text-4)', fontSize: 12 }}>
+          {changedFiles > 320 ? 'Showing hottest 320 files' : 'Click any tile to open that file'}
+        </div>
       </div>
 
       <div

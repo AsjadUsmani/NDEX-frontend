@@ -1,4 +1,4 @@
-import { Loader2, Github, GitBranch, Sun, Moon } from 'lucide-react'
+import { Loader2, Github, GitBranch, Sun, Moon, Menu } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
 import { useRepoStore } from '../../store/repoStore'
@@ -30,7 +30,7 @@ export default function TopBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
   const { repoUrl, owner, repoName, isConnected, metadata } = useRepoStore()
-  const { sidebarCollapsed, theme, toggleTheme } = useUIStore()
+  const { sidebarCollapsed, theme, toggleTheme, toggleSidebar } = useUIStore()
   const isAnyLoading = useUIStore(state => state.isAnyLoading())
   const title = titleMap[location.pathname] ?? 'NDEX'
   const repoLabel = metadata
@@ -57,8 +57,30 @@ export default function TopBar() {
         zIndex: 10,
       }}
     >
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: 'var(--text-1)' }}>
-        {title}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button
+          type="button"
+          onClick={toggleSidebar}
+          aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: 10,
+            border: '0.5px solid var(--border-2)',
+            background: 'var(--bg-raised)',
+            color: 'var(--text-2)',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Menu size={16} />
+        </button>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: 'var(--text-1)' }}>
+          {title}
+        </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

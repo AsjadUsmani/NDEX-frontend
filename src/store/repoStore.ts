@@ -174,6 +174,11 @@ export const useRepoStore = create<RepoState>()(
 
       loadFromSupabase: async () => {
         try {
+          const current = get()
+          if (current.isConnected && current.owner && current.repoName && current.metadata) {
+            return
+          }
+
           const { data } = await reposApi.list()
           if (data && data.length > 0) {
             const last = data[0] as SavedRepository

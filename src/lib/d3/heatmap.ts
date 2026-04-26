@@ -22,6 +22,8 @@ interface HeatmapCommitInput {
   changedFiles?: string[]
 }
 
+const MAX_VISIBLE_FILES = 320
+
 function isDirectory(node: FileNode): boolean {
   return node.type === 'tree' || node.type === 'dir'
 }
@@ -64,6 +66,19 @@ function flattenFiles(nodes: FileNode[]): FileNode[] {
 
   nodes.forEach(visit)
   return flattened
+}
+
+function filterTreeToPaths(nodes: FileNode[], allowedPaths: Set<string>): FileNode[] {
+  return nodes
+    .map(node => {
+      if (isDirectory(node)) {
+        const children = filterTreeToPaths(node.children || [], allowedPaths)
+        return children.length > 0 ? { ...node, children } : null
+      }
+
+      return allowedPaths.has(node.path) ? node : null
+    })
+    .filter((node): node is FileNode => Boolean(node))
 }
 
 export function renderHeatmap(
@@ -118,13 +133,30 @@ export function renderHeatmap(
     }
   }
 
+  const rankedFiles = flattened
+    .map(file => ({
+      ...file,
+      score: changeMap.get(file.path) ?? 0,
+    }))
+    .sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score
+      }
+      return (b.size ?? 0) - (a.size ?? 0)
+    })
+
+  const changedFiles = rankedFiles.filter(file => file.score > 0)
+  const visibleFiles = (changedFiles.length > 0 ? changedFiles : rankedFiles).slice(0, MAX_VISIBLE_FILES)
+  const visiblePaths = new Set(visibleFiles.map(file => file.path))
+  const visibleTree = filterTreeToPaths(files, visiblePaths)
+
   const rootData: HeatmapNodeData = {
     name: 'Repository files',
     path: '',
     type: 'root',
     size: 0,
     changeCount: 0,
-    children: buildTree(files, changeMap),
+    children: buildTree(visibleTree, changeMap),
   }
 
   const hierarchy = d3.hierarchy<HeatmapNodeData>(rootData)
@@ -144,9 +176,7 @@ export function renderHeatmap(
     .data(leaves)
     .join('g')
     .attr('transform', d => `translate(${d.x0},${d.y0})`)
-    .style('opacity', 0)
-
-  cells.transition().duration(250).delay((_, i) => i * 15).ease(d3.easeCubicOut).style('opacity', 1)
+    .style('opacity', 1)
 
   cells.each(function drawCell(cell) {
     const node = d3.select(this)
@@ -164,7 +194,7 @@ export function renderHeatmap(
       .attr('fill', heatColor(intensity))
       .attr('stroke', isSelected ? '#00a19b' : '#08101d')
       .attr('stroke-width', isSelected ? 2 : 1)
-      .attr('opacity', data.changeCount === 0 ? 0.78 : 1)
+      .attr('opacity', data.changeCount === 0 ? 0.7 : 1)
       .style('cursor', 'pointer')
       .on('mouseenter', function handleEnter(event) {
         d3.select(this).attr('stroke', '#00a19b').attr('stroke-width', 2)

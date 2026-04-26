@@ -1,5 +1,5 @@
 import PageShell from '../components/layout/PageShell'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 import CommitTimeline from '../components/github/CommitTimeline'
@@ -7,6 +7,7 @@ import BranchTree from '../components/github/BranchTree'
 import ContributorGraph from '../components/github/ContributorGraph'
 import PRActivity from '../components/github/PRActivity'
 import FileHeatmap from '../components/code/FileHeatmap'
+import { useGitHub } from '../hooks/useGitHub'
 import { useRepoStore } from '../store/repoStore'
 import { GitBranch, GitCommit, GitPullRequest, Users, Flame } from 'lucide-react'
 import type { BranchData, CommitData, ContributorData, PRData } from '../types/index.ts'
@@ -147,7 +148,26 @@ export default function GitTracking() {
   const [selectedContributor, setSelectedContributor] = useState<ContributorData | null>(null)
   const [selectedPR, setSelectedPR] = useState<PRData | null>(null)
 
+  const { fetchCommits } = useGitHub()
+  const refreshedCommitDetailsRef = useRef(false)
   const { isConnected, commits, branches, contributors, fileTree } = useRepoStore()
+
+  useEffect(() => {
+    if (!isConnected || refreshedCommitDetailsRef.current || commits.length === 0) {
+      return
+    }
+
+    const hasDetailedFiles = commits.some(commit => (commit.changedFiles?.length ?? 0) > 0)
+    if (hasDetailedFiles) {
+      refreshedCommitDetailsRef.current = true
+      return
+    }
+
+    refreshedCommitDetailsRef.current = true
+    void fetchCommits().catch(() => {
+      refreshedCommitDetailsRef.current = false
+    })
+  }, [commits, fetchCommits, isConnected])
 
   const handleCommitSelect = useCallback((commit: CommitData | null) => {
     setSelectedCommit(commit)
