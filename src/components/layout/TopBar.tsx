@@ -1,4 +1,4 @@
-import { Loader2, Github, GitBranch } from 'lucide-react'
+import { Loader2, Github, GitBranch, Sun, Moon } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
 import { useRepoStore } from '../../store/repoStore'
@@ -30,7 +30,7 @@ export default function TopBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
   const { repoUrl, owner, repoName, isConnected, metadata } = useRepoStore()
-  const sidebarCollapsed = useUIStore(state => state.sidebarCollapsed)
+  const { sidebarCollapsed, theme, toggleTheme } = useUIStore()
   const isAnyLoading = useUIStore(state => state.isAnyLoading())
   const title = titleMap[location.pathname] ?? 'NDEX'
   const repoLabel = metadata ? `${metadata.owner}/${metadata.name}` : isConnected ? `${owner}/${repoName}` : ''
@@ -117,6 +117,29 @@ export default function TopBar() {
         >
           {isAnyLoading ? <Loader2 size={18} style={{ color: 'var(--teal)' }} /> : <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--teal)' }} />}
         </div>
+
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 32,
+            height: 32,
+            borderRadius: 999,
+            background: 'var(--bg-raised)',
+            border: '0.5px solid var(--border-2)',
+            color: 'var(--text-2)',
+            cursor: 'pointer',
+            marginLeft: 4,
+          }}
+          onMouseEnter={e => e.currentTarget.style.color = 'var(--teal)'}
+          onMouseLeave={e => e.currentTarget.style.color = 'var(--text-2)'}
+          title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
 
         {/* User Profile Dropdown */}
         {user && (

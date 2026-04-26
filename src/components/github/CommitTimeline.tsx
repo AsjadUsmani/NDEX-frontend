@@ -39,12 +39,12 @@ export default function CommitTimeline({ commits, onCommitSelect }: CommitTimeli
       width: dimensions.width,
       height: 280,
       margin: { top: 16, right: 18, bottom: 40, left: 10 },
-      onCommitClick: commit => onCommitSelect(commit),
+      onCommitClick: onCommitSelect,
       onCommitHover: () => undefined,
     })
   }, [filtered, onCommitSelect])
 
-  const chartRef = useD3<HTMLDivElement>(renderFn, [filtered, onCommitSelect])
+  const chartRef = useD3<HTMLDivElement>(renderFn, [filtered])
 
   return (
     <section

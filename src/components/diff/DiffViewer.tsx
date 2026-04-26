@@ -9,6 +9,18 @@ interface DiffViewerProps {
   onToggle: () => void
 }
 
+// HTML escape utility
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }
+  return text.replace(/[&<>"']/g, (char) => map[char])
+}
+
 // Parse unified diff patch into DiffLine array
 function parsePatch(patch: string): DiffLine[] {
   if (!patch) return []
@@ -21,22 +33,23 @@ function parsePatch(patch: string): DiffLine[] {
       // Parse hunk header: @@ -oldStart,oldCount +newStart,newCount @@
       const match = raw.match(/@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@/)
       if (match) {
-        oldNum = parseInt(match[1]) - 1
-        newNum = parseInt(match[2]) - 1
+        oldNum = parseInt(match[1])
+        newNum = parseInt(match[2])
       }
       lines.push({ type: 'header', content: raw })
       continue
     }
     if (raw.startsWith('+') && !raw.startsWith('+++')) {
-      newNum++
       lines.push({ type: 'added', content: raw.slice(1), newLineNum: newNum })
+      newNum++
     } else if (raw.startsWith('-') && !raw.startsWith('---')) {
-      oldNum++
       lines.push({ type: 'removed', content: raw.slice(1), oldLineNum: oldNum })
+      oldNum++
     } else if (raw && !raw.startsWith('\\')) {
-      oldNum++; newNum++
       lines.push({ type: 'context', content: raw.slice(1),
                    oldLineNum: oldNum, newLineNum: newNum })
+      oldNum++
+      newNum++
     }
   }
   return lines
@@ -213,12 +226,12 @@ export default function DiffViewer({
           <table style={{
             width: '100%',
             borderCollapse: 'collapse',
-            tableLayout: 'fixed',
+            tableLayout: 'auto',
           }}>
             <colgroup>
               <col style={{ width: 40 }} />  {/* old line num */}
               <col style={{ width: 40 }} />  {/* new line num */}
-              <col />                         {/* content */}
+              <col style={{ width: '1%' }} /> {/* content */}
             </colgroup>
             <tbody>
               {visibleLines.map((line, i) => (
@@ -233,6 +246,7 @@ export default function DiffViewer({
                     userSelect: 'none',
                     verticalAlign: 'top',
                     paddingTop: 1,
+                    minWidth: 40,
                   }}>
                     {line.type !== 'added' && line.type !== 'header'
                       ? line.oldLineNum : ''}
@@ -247,6 +261,7 @@ export default function DiffViewer({
                     userSelect: 'none',
                     verticalAlign: 'top',
                     paddingTop: 1,
+                    minWidth: 40,
                   }}>
                     {line.type !== 'removed' && line.type !== 'header'
                       ? line.newLineNum : ''}
@@ -261,11 +276,11 @@ export default function DiffViewer({
                       '#8fb5b3',
                     fontFamily: 'Geist Mono, monospace',
                     fontSize: 12,
-                    whiteSpace: 'pre',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
                   }}>
-                    {line.content}
+                    {escapeHtml(line.content)}
                   </td>
                 </tr>
               ))}

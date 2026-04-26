@@ -334,4 +334,33 @@ export interface DiffStats {
   removedFiles: number
   modifiedFiles: number
 }
+export interface UserPreferences {
+  theme: 'dark' | 'light'
+  sidebarCollapsed: boolean
+  defaultBranch: string
+  githubTokenHint: string | null
+  notifications: {
+    email: boolean
+    push: boolean
+  }
+}
 
+export interface SavedRepository {
+  id: string
+  user_id: string
+  github_url: string
+  owner: string
+  repo_name: string
+  description: string | null
+  stars: number
+  forks: number
+  language: string | null
+  is_private: boolean
+  file_tree: FileNode[]
+  commits: CommitData[]
+  branches: BranchData[]
+  contributors: ContributorData[]
+  languages_data: Record<string, number>
+  last_analyzed: string | null
+  created_at: string
+}

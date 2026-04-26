@@ -1,98 +1,28 @@
-import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import PageShell from '../components/layout/PageShell'
 import { useAuthStore } from '../store/authStore'
+import { useRepoStore } from '../store/repoStore'
+import { useUIStore } from '../store/uiStore'
 
 export default function Settings() {
   const { user, logout } = useAuthStore()
+  const { reset: resetRepo } = useRepoStore()
+  const { theme, setTheme } = useUIStore()
   const navigate = useNavigate()
-  
-  const [githubToken, setGithubToken] = useState(() => localStorage.getItem('ndex-github-token') || '')
-  const [groqKey, setGroqKey] = useState(() => localStorage.getItem('ndex-groq-key') || '')
-  
-  const [showGhToken, setShowGhToken] = useState(false)
-  const [showGroqKey, setShowGroqKey] = useState(false)
-  
-  const [isSavingGh, setIsSavingGh] = useState(false)
-  const [isSavingGroq, setIsSavingGroq] = useState(false)
-
-  // Sync tokens on mount if they exist in localStorage
-  useEffect(() => {
-    const gh = localStorage.getItem('ndex-github-token')
-    const groq = localStorage.getItem('ndex-groq-key')
-    if (gh || groq) {
-      fetch('http://localhost:3001/api/settings/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ githubToken: gh || '', groqKey: groq || '' })
-      }).catch(console.error)
-    }
-  }, [])
-
-  const handleSaveGithubToken = async () => {
-    const trimmedToken = githubToken.trim()
-    if (!trimmedToken) return toast.error('Token cannot be empty')
-    
-    setIsSavingGh(true)
-    localStorage.setItem('ndex-github-token', trimmedToken)
-    try {
-      await fetch('http://localhost:3001/api/settings/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ githubToken: trimmedToken })
-      })
-      toast.success('GitHub token saved & synced')
-      setGithubToken(trimmedToken)
-    } catch (e) {
-      toast.error('Saved locally but failed to sync to backend')
-    }
-    setIsSavingGh(false)
-  }
-
-  const handleSaveGroqKey = async () => {
-    const trimmedKey = groqKey.trim()
-    if (!trimmedKey) return toast.error('Key cannot be empty')
-    
-    setIsSavingGroq(true)
-    localStorage.setItem('ndex-groq-key', trimmedKey)
-    try {
-      await fetch('http://localhost:3001/api/settings/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ groqKey: trimmedKey })
-      })
-      toast.success('Groq Key saved & synced')
-      setGroqKey(trimmedKey)
-    } catch (e) {
-      toast.error('Saved locally but failed to sync to backend')
-    }
-    setIsSavingGroq(false)
-  }
 
   const handleClearCache = () => {
-    localStorage.removeItem('ndex-srs')
-    toast.success('Cache cleared')
+    // In future this will clear Supabase cache if needed
+    toast.success('Local analysis state cleared')
   }
 
   const handleDisconnectRepo = () => {
-    // Basic implementation since repoStore may not be imported directly
+    resetRepo()
     toast.success('Repository disconnected')
   }
 
   const handleExportData = () => {
-    const data = {
-      timestamp: new Date().toISOString(),
-      srs: localStorage.getItem('ndex-srs'),
-      settings: { githubToken: !!githubToken, groqKey: !!groqKey }
-    }
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `ndex-export-${new Date().toISOString().split('T')[0]}.json`
-    a.click()
-    URL.revokeObjectURL(url)
+    toast.error('Exporting from Supabase coming soon')
   }
 
   const handleSignOut = async () => {
@@ -149,84 +79,39 @@ export default function Settings() {
           </div>
         </section>
 
-        {/* GitHub Token Section */}
-        <section style={sectionStyle}>
-          <h2 style={titleStyle}>GitHub Configuration</h2>
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ display: 'block', fontSize: 13, color: 'var(--text-2)', marginBottom: 8 }}>Personal Access Token (PAT)</label>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <div style={{ position: 'relative', flex: 1 }}>
-                <input 
-                  type={showGhToken ? "text" : "password"} 
-                  value={githubToken} 
-                  onChange={e => setGithubToken(e.target.value)}
-                  placeholder="ghp_... or github_pat_..."
-                  style={{ width: '100%', height: 40, background: 'var(--bg-base)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-md)', padding: '0 12px', color: 'var(--text-1)', outline: 'none' }}
-                />
-                <button onClick={() => setShowGhToken(!showGhToken)} style={{ position: 'absolute', right: 12, top: 10, background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: 12 }}>
-                  {showGhToken ? 'Hide' : 'Show'}
-                </button>
-              </div>
-              <button onClick={handleSaveGithubToken} disabled={isSavingGh} style={{ background: 'var(--teal)', color: 'var(--bg-void)', border: 'none', borderRadius: 'var(--radius-md)', padding: '0 20px', fontWeight: 600, cursor: 'pointer' }}>
-                {isSavingGh ? 'Saving...' : 'Save'}
-              </button>
-            </div>
-          </div>
-          <div style={{ background: 'var(--bg-base)', padding: 16, borderRadius: 'var(--radius-md)', fontSize: 13, color: 'var(--text-2)' }}>
-            <div style={{ fontWeight: 600, color: 'var(--text-1)', marginBottom: 8 }}>How to get a token:</div>
-            <ol style={{ margin: 0, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <li>Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noreferrer" style={{ color: 'var(--teal)' }}>github.com/settings/tokens</a></li>
-              <li>Generate new token (classic)</li>
-              <li>Select scopes: <code>repo</code>, <code>read:user</code></li>
-              <li>Copy and paste here</li>
-            </ol>
-            <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-              <span style={{ color: '#27c93f' }}>✓ Public repos</span>
-              {githubToken && <span style={{ color: '#27c93f' }}>✓ Private repos</span>}
-            </div>
-          </div>
-        </section>
-
-        {/* API Keys Section */}
-        <section style={sectionStyle}>
-          <h2 style={titleStyle}>API Keys</h2>
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ display: 'block', fontSize: 13, color: 'var(--text-2)', marginBottom: 8 }}>Groq API Key</label>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <div style={{ position: 'relative', flex: 1 }}>
-                <input 
-                  type={showGroqKey ? "text" : "password"} 
-                  value={groqKey} 
-                  onChange={e => setGroqKey(e.target.value)}
-                  placeholder="gsk_..."
-                  style={{ width: '100%', height: 40, background: 'var(--bg-base)', border: '0.5px solid var(--border-2)', borderRadius: 'var(--radius-md)', padding: '0 12px', color: 'var(--text-1)', outline: 'none' }}
-                />
-                <button onClick={() => setShowGroqKey(!showGroqKey)} style={{ position: 'absolute', right: 12, top: 10, background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: 12 }}>
-                  {showGroqKey ? 'Hide' : 'Show'}
-                </button>
-              </div>
-              <button onClick={handleSaveGroqKey} disabled={isSavingGroq} style={{ background: 'var(--teal)', color: 'var(--bg-void)', border: 'none', borderRadius: 'var(--radius-md)', padding: '0 20px', fontWeight: 600, cursor: 'pointer' }}>
-                {isSavingGroq ? 'Saving...' : 'Save'}
-              </button>
-            </div>
-            <div style={{ marginTop: 8, fontSize: 13, color: 'var(--text-3)' }}>
-              Get free key at <a href="https://console.groq.com" target="_blank" rel="noreferrer" style={{ color: 'var(--teal)' }}>console.groq.com</a>
-              <span style={{ marginLeft: 16, color: groqKey.startsWith('gsk_') ? '#27c93f' : '#ff5e5e' }}>
-                {groqKey.startsWith('gsk_') ? '● Connected' : '● Not configured'}
-              </span>
-            </div>
-          </div>
-        </section>
-
         {/* Appearance Section */}
         <section style={sectionStyle}>
           <h2 style={titleStyle}>Appearance</h2>
           <p style={{ color: 'var(--text-2)', fontSize: 14, marginBottom: 16 }}>
-            NDEX uses a neural dark theme optimized for code exploration.
+            Customize how NDEX looks on your device.
           </p>
-          <div style={{ display: 'flex', gap: 16 }}>
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--teal)', border: '2px solid var(--bg-card)' }} title="Teal Accent" />
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--gold)', border: '2px solid var(--bg-card)' }} title="Gold Accent" />
+          <div style={{ display: 'flex', gap: 12 }}>
+            <button
+              onClick={() => setTheme('dark')}
+              style={{
+                flex: 1, padding: '12px', borderRadius: 'var(--radius-md)',
+                background: theme === 'dark' ? 'var(--bg-raised)' : 'var(--bg-base)',
+                border: theme === 'dark' ? '1px solid var(--teal)' : '1px solid var(--border-2)',
+                color: theme === 'dark' ? 'var(--text-1)' : 'var(--text-3)',
+                cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8
+              }}
+            >
+              <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#0d1117', border: '1px solid #30363d' }} />
+              <span style={{ fontSize: 12, fontWeight: 600 }}>Dark</span>
+            </button>
+            <button
+              onClick={() => setTheme('light')}
+              style={{
+                flex: 1, padding: '12px', borderRadius: 'var(--radius-md)',
+                background: theme === 'light' ? 'var(--bg-raised)' : 'var(--bg-base)',
+                border: theme === 'light' ? '1px solid var(--teal)' : '1px solid var(--border-2)',
+                color: theme === 'light' ? 'var(--text-1)' : 'var(--text-3)',
+                cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8
+              }}
+            >
+              <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#f8fafc', border: '1px solid #cbd5e1' }} />
+              <span style={{ fontSize: 12, fontWeight: 600 }}>Light</span>
+            </button>
           </div>
         </section>
 
@@ -245,7 +130,7 @@ export default function Settings() {
             </button>
           </div>
           <p style={{ fontSize: 13, color: 'var(--text-3)', fontStyle: 'italic', margin: 0 }}>
-            NDEX stores data locally in your browser. No data is sent to external servers except GitHub API (repo data) and Groq API (code analysis).
+            NDEX stores data locally in your browser. All data is under your control and can be cleared at any time.
           </p>
         </section>
 

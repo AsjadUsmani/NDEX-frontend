@@ -25,23 +25,51 @@ void import('mermaid').then(mod => {
 async function renderMermaid(diagrams: GeneratedDiagram[]): Promise<Record<string, string>> {
   const mod = await import('mermaid')
   const mermaid = mod.default
-  if (!mermaidInited) {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'dark',
-      themeVariables: {
-        background: '#05080f',
-        primaryColor: '#00a19b',
-        primaryTextColor: '#e8f4f3',
-        primaryBorderColor: '#00a19b33',
-        lineColor: '#4d7c79',
-        secondaryColor: '#0c1420',
-        tertiaryColor: '#101928',
-        fontSize: '13px',
-      },
-    })
-    mermaidInited = true
-  }
+  // Always re-initialize with high-contrast theme to ensure arrows are visible
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    themeVariables: {
+      // Backgrounds
+      background: '#05080f',
+      mainBkg: '#0c1420',
+      nodeBorder: '#00a19b',
+      // Node fill / text
+      primaryColor: '#0c1420',
+      primaryTextColor: '#e8f4f3',
+      primaryBorderColor: '#00a19b',
+      secondaryColor: '#101928',
+      secondaryTextColor: '#e8f4f3',
+      secondaryBorderColor: '#e4dd3d55',
+      tertiaryColor: '#111c2a',
+      tertiaryTextColor: '#b8c8c7',
+      tertiaryBorderColor: '#00a19b44',
+      // ARROWS & EDGES — use bright teal so they're always visible on dark bg
+      lineColor: '#00d4cc',
+      edgeLabelBackground: '#0c1420',
+      // Text/labels
+      textColor: '#e8f4f3',
+      labelColor: '#e8f4f3',
+      labelBackground: '#101928',
+      // Sequence / actor
+      actorBkg: '#0c1420',
+      actorBorder: '#00a19b',
+      actorTextColor: '#e8f4f3',
+      actorLineColor: '#00d4cc',
+      signalColor: '#00d4cc',
+      signalTextColor: '#e8f4f3',
+      // Class diagram
+      classText: '#e8f4f3',
+      // Flowchart
+      fillType0: '#0c1420',
+      fillType1: '#101928',
+      // Fonts & sizing
+      fontSize: '15px',
+      fontFamily: 'Geist, sans-serif',
+    },
+  })
+  mermaidInited = true
+
   const svgs: Record<string, string> = {}
   for (const d of diagrams) {
     try {

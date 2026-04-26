@@ -83,16 +83,22 @@ export const codeApi = {
 }
 
 export const srsApi = {
-  generate: (owner: string, repo: string, data: any) =>
-    api.post(`/api/srs/generate/${owner}/${repo}`, data),
-  getStatus: (jobId: string) =>
-    api.get(`/api/srs/status/${jobId}`),
-  getHistory: (owner: string, repo: string) =>
-    api.get(`/api/srs/history/${owner}/${repo}`),
-  exportMarkdown: (jobId: string) =>
-    api.get(`/api/srs/export/${jobId}`, { responseType: 'blob' }),
+  list: () => api.get('/api/srs/list'),
+  get: (id: string) => api.get(`/api/srs/${id}`),
+  delete: (id: string) => api.delete(`/api/srs/${id}`),
+  exportMarkdown: (id: string) => api.post(`/api/srs/${id}/export/markdown`, {}, { responseType: 'blob' }),
   getGenerateStreamUrl: (owner: string, repo: string) =>
     `${api.defaults.baseURL}/api/srs/generate?owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}`,
+}
+
+export const preferencesApi = {
+  get: () => api.get('/api/preferences'),
+  update: (data: any) => api.put('/api/preferences', data),
+}
+
+export const reposApi = {
+  list: () => api.get('/api/repos'),
+  save: (data: any) => api.post('/api/repos', data),
 }
 
 export default api

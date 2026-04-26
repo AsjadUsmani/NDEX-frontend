@@ -51,32 +51,82 @@ function AppShell({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function App() {
-  const { activeModal, openModal, closeModal } = useUIStore()
+// Keyboard shortcuts handler component
+function KeyboardShortcuts() {
+  const { openModal, closeModal } = useUIStore()
 
-  // Global keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       // Cmd+K → command palette
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
         openModal('commandPalette')
+        return
+      }
+      
+      // Don't trigger shortcuts if in input/textarea
+      const target = e.target as HTMLElement
+      if (target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA') {
+        return
+      }
+
+      // G → Git Tracking
+      if (e.key.toLowerCase() === 'g' && !(e.metaKey || e.ctrlKey || e.shiftKey)) {
+        e.preventDefault()
+        window.location.href = '/git'
+      }
+      // S → SRS Docs
+      else if (e.key.toLowerCase() === 's' && !(e.metaKey || e.ctrlKey || e.shiftKey)) {
+        e.preventDefault()
+        window.location.href = '/srs'
+      }
+      // C → Code Analysis
+      else if (e.key.toLowerCase() === 'c' && !(e.metaKey || e.ctrlKey || e.shiftKey)) {
+        e.preventDefault()
+        window.location.href = '/code'
+      }
+      // D → Dashboard
+      else if (e.key.toLowerCase() === 'd' && !(e.metaKey || e.ctrlKey || e.shiftKey)) {
+        e.preventDefault()
+        window.location.href = '/dashboard'
+      }
+      // Cmd+/ → Toggle sidebar
+      else if ((e.metaKey || e.ctrlKey) && e.key === '/') {
+        e.preventDefault()
+        useUIStore.getState().toggleSidebar()
+      }
+      // Esc → Close modals/panels
+      else if (e.key === 'Escape') {
+        e.preventDefault()
+        closeModal()
       }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [openModal])
+  }, [openModal, closeModal])
 
-  const { isAuthenticated, hasHydrated, checkSession } = useAuthStore()
+  return null
+}
+
+export default function App() {
+  const { activeModal, closeModal, theme, hasHydrated: uiHydrated } = useUIStore()
+  const { isAuthenticated, hasHydrated: authHydrated, checkSession } = useAuthStore()
 
   useEffect(() => {
-    if (hasHydrated && isAuthenticated) {
+    if (uiHydrated) {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+  }, [theme, uiHydrated])
+
+  useEffect(() => {
+    if (authHydrated && isAuthenticated) {
       checkSession()
     }
-  }, [hasHydrated, isAuthenticated, checkSession])
+  }, [authHydrated, isAuthenticated, checkSession])
 
   return (
     <BrowserRouter>
+      <KeyboardShortcuts />
       <AnimatePresence>
         {activeModal === 'commandPalette' && (
           <CommandPalette onClose={closeModal} />

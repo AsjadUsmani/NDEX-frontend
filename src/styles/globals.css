@@ -1,11 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
 @import './theme.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* ─── DARK THEME (default) ─────────────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
   /* ── Brand primaries ── */
   --teal:         #00A19B;
   --teal-dim:     #007f7a;
@@ -18,25 +20,25 @@
   --gold-glow:    rgba(228, 221, 59, 0.24);
 
   /* ── Backgrounds (GitHub-dark inspired) ── */
-  --bg-void:      #090d12;   /* deepest */
-  --bg-base:      #0d1117;   /* page bg — GitHub dark */
-  --bg-surface:   #161b22;   /* elevated surface */
-  --bg-card:      #1a2230;   /* card */
-  --bg-raised:    #21293a;   /* raised element */
-  --bg-hover:     #28324a;   /* hover state */
+  --bg-void:      #090d12;
+  --bg-base:      #0d1117;
+  --bg-surface:   #161b22;
+  --bg-card:      #1a2230;
+  --bg-raised:    #21293a;
+  --bg-hover:     #28324a;
 
   /* ── Text hierarchy ── */
-  --text-1:       #e6edf3;   /* primary — near-white */
-  --text-2:       #8d96a0;   /* secondary — muted slate */
-  --text-3:       #4a5568;   /* tertiary — dim */
-  --text-4:       #2d3748;   /* placeholder / disabled */
+  --text-1:       #e6edf3;
+  --text-2:       #8d96a0;
+  --text-3:       #4a5568;
+  --text-4:       #2d3748;
 
   /* ── Borders ── */
   --border-1:     rgba(0, 161, 155, 0.08);
   --border-2:     rgba(0, 161, 155, 0.18);
   --border-3:     rgba(0, 161, 155, 0.38);
   --border-gold:  rgba(228, 221, 59, 0.20);
-  --border-subtle: rgba(48, 54, 61, 0.9);   /* GitHub-style neutral border */
+  --border-subtle: rgba(48, 54, 61, 0.9);
 
   /* ── Semantic ── */
   --success:      #3fb950;
@@ -58,10 +60,64 @@
   --radius-lg:  14px;
   --radius-xl:  20px;
 
-  /* ── FONTS: ALL GEIST ── */
-  --font-display: 'Geist', sans-serif;
-  --font-body:    'Geist', sans-serif;
+  /* ── FONTS ── */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body:    'Plus Jakarta Sans', sans-serif;
   --font-mono:    'Geist Mono', monospace;
+
+  /* ── Scrollbar ── */
+  color-scheme: dark;
+}
+
+/* ─── LIGHT THEME ───────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  /* ── Brand primaries (same) ── */
+  --teal:         #007f7a;
+  --teal-dim:     #006560;
+  --teal-faint:   rgba(0, 127, 122, 0.08);
+  --teal-glow:    rgba(0, 127, 122, 0.20);
+
+  --gold:         #8a7a00;
+  --gold-dim:     #6b5f00;
+  --gold-faint:   rgba(138, 122, 0, 0.08);
+  --gold-glow:    rgba(138, 122, 0, 0.18);
+
+  /* ── Backgrounds ── */
+  --bg-void:      #f0f4f8;
+  --bg-base:      #f8fafc;
+  --bg-surface:   #ffffff;
+  --bg-card:      #ffffff;
+  --bg-raised:    #f1f5f9;
+  --bg-hover:     #e8eef5;
+
+  /* ── Text hierarchy ── */
+  --text-1:       #0d1117;
+  --text-2:       #4a5568;
+  --text-3:       #718096;
+  --text-4:       #a0aec0;
+
+  /* ── Borders ── */
+  --border-1:     rgba(0, 127, 122, 0.08);
+  --border-2:     rgba(0, 127, 122, 0.15);
+  --border-3:     rgba(0, 127, 122, 0.30);
+  --border-gold:  rgba(138, 122, 0, 0.15);
+  --border-subtle: rgba(203, 213, 225, 0.9);
+
+  /* ── Semantic ── */
+  --success:      #16a34a;
+  --warning:      #ca8a04;
+  --error:        #dc2626;
+  --info:         #007f7a;
+
+  /* ── D3 palette (slightly darker for readability on white) ── */
+  --d3-a: #007f7a;
+  --d3-b: #8a7a00;
+  --d3-c: #0097a7;
+  --d3-d: #6b5f00;
+  --d3-e: #005e5b;
+  --d3-f: #a09000;
+
+  color-scheme: light;
 }
 
 *, *::before, *::after {
@@ -85,6 +141,7 @@ body {
   background-color: var(--bg-base);
   color: var(--text-1);
   min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -130,12 +187,12 @@ code, pre, kbd, samp {
   background-size: 40px 40px;
 }
 
+/* ─── Animations ────────────────────────────────────────────────────────────── */
 @keyframes neural-pulse {
   0%, 100% {
     opacity: 0.5;
     box-shadow: 0 0 6px var(--teal-glow);
   }
-
   50% {
     opacity: 1;
     box-shadow: 0 0 18px var(--teal-glow);
@@ -143,35 +200,18 @@ code, pre, kbd, samp {
 }
 
 @keyframes gold-shimmer {
-  0% {
-    background-position: -200% center;
-  }
-
-  100% {
-    background-position: 200% center;
-  }
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
 @keyframes scan {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(100vh);
-  }
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
 }
 
 @keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-up {
@@ -180,6 +220,13 @@ code, pre, kbd, samp {
 
 .animate-pulse-teal {
   animation: neural-pulse 2s ease-in-out infinite;
+}
+
+/* Float: runs once, use animation-fill-mode forwards to settle */
+@keyframes float-once {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
 }
 
 @keyframes float {
@@ -213,13 +260,8 @@ code, pre, kbd, samp {
 }
 
 @keyframes ndex-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
-  }
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .ndex-skeleton {
@@ -229,11 +271,17 @@ code, pre, kbd, samp {
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 
-  to {
-    transform: rotate(360deg);
-  }
+/* ─── Theme transition ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease;
+}
+
+/* Exclude elements that shouldn't have theme transitions */
+svg *, canvas, img, video,
+[data-no-transition] {
+  transition: none !important;
 }

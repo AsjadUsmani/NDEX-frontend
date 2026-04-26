@@ -131,10 +131,11 @@ export function renderTimeline(
     .attr('stroke-width', 1.5)
     .style('cursor', 'pointer')
 
+  // Commit entry animation — only run if not already at the target Y
   dots
-    .transition()
-    .duration(300)
-    .delay((_, i) => i * 12)
+    .transition('entry')
+    .duration(400)
+    .delay((_, i) => i * 10)
     .ease(d3.easeCubicOut)
     .attr('cy', (_, i) => yScale(i))
 
@@ -156,31 +157,39 @@ export function renderTimeline(
 
   dots
     .on('mouseenter', function handleEnter(event, commit) {
+      // Interrupt any running transition (including entry) before starting hover
+      d3.interrupt(this)
       d3.select(this)
-        .transition()
-        .duration(300)
+        .transition('hover')
+        .duration(150)
         .ease(d3.easeCubicOut)
-        .attr('r', rScale(commit.filesChanged || 1) * 1.4)
+        .attr('r', rScale(commit.filesChanged || 1) * 1.5)
+        .attr('stroke', 'rgba(255,255,255,0.7)')
+        .attr('stroke-width', 2)
 
       setTooltip(event as MouseEvent, commit)
-      config.onCommitHover(commit, event as MouseEvent)
+      config.onCommitHover?.(commit, event as MouseEvent)
     })
     .on('mousemove', function handleMove(event, commit) {
       setTooltip(event as MouseEvent, commit)
-      config.onCommitHover(commit, event as MouseEvent)
     })
-    .on('mouseleave', function handleLeave(_, commit) {
+    .on('mouseleave', function handleLeave() {
+      // Interrupt hover transition, restore immediately
+      d3.interrupt(this)
+      const commit = d3.select(this).datum() as CommitData
       d3.select(this)
-        .transition()
-        .duration(300)
+        .transition('restore')
+        .duration(200)
         .ease(d3.easeCubicOut)
         .attr('r', rScale(commit.filesChanged || 1))
+        .attr('stroke', 'rgba(255,255,255,0.20)')
+        .attr('stroke-width', 1.5)
 
       tooltip.style('opacity', '0')
-      config.onCommitHover(null)
+      config.onCommitHover?.(null)
     })
     .on('click', (_, commit) => {
-      config.onCommitClick(commit)
+      config.onCommitClick?.(commit)
     })
 
   const zoom = d3.zoom<SVGSVGElement, unknown>()
