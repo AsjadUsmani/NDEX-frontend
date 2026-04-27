@@ -170,6 +170,9 @@ export const useAuthStore = create<AuthState>()(
           if (axiosError.response?.status === 401 || axiosError.response?.status === 403) {
             try {
               await get().refresh()
+              const { data } = await api.get('/api/auth/me')
+              set({ user: data.user, isAuthenticated: true, error: null })
+              await get().loadUserData()
             } catch {
               await get().logout()
             }

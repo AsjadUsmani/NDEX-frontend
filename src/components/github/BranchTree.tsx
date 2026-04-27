@@ -14,6 +14,7 @@ interface BranchTreeProps {
 export default function BranchTree({ branches, commits, onBranchSelect }: BranchTreeProps) {
   const [selected, setSelected] = useState<BranchData | null>(null)
   const loading = useUIStore(state => state.isLoading('github-connect'))
+  const chartHeight = Math.min(680, Math.max(320, 120 + branches.length * 44))
 
   const renderFn = useCallback((container: HTMLDivElement, dimensions: { width: number; height: number }) => {
     if (!branches.length) {
@@ -24,13 +25,13 @@ export default function BranchTree({ branches, commits, onBranchSelect }: Branch
 
     return renderBranchTree(container, branches, commits, {
       width: dimensions.width,
-      height: 320,
+      height: chartHeight,
       onBranchClick: branch => {
         setSelected(branch)
         onBranchSelect(branch)
       },
     })
-  }, [branches, commits, onBranchSelect])
+  }, [branches, chartHeight, commits, onBranchSelect])
 
   const chartRef = useD3<HTMLDivElement>(renderFn, [branches, commits])
 
@@ -60,9 +61,19 @@ export default function BranchTree({ branches, commits, onBranchSelect }: Branch
       </div>
 
       {loading ? (
-        <div className="ndex-skeleton" style={{ height: 320, borderRadius: 8 }} />
+        <div className="ndex-skeleton" style={{ height: chartHeight, borderRadius: 8 }} />
       ) : (
-        <div ref={chartRef} style={{ position: 'relative', width: '100%', height: 320, overflow: 'hidden' }} />
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '100%',
+            overflowX: 'auto',
+            overflowY: 'hidden',
+          }}
+        >
+          <div ref={chartRef} style={{ position: 'relative', width: '100%', height: chartHeight, minWidth: 560 }} />
+        </div>
       )}
 
       {selected ? (

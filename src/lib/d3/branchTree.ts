@@ -22,7 +22,7 @@ export function renderBranchTree(
 ): () => void {
   d3.select(container).selectAll('*').remove()
 
-  const width = Math.max(320, config.width)
+  const width = Math.max(560, config.width)
   const height = Math.max(220, config.height)
 
   const svg = d3.select(container)
@@ -77,11 +77,19 @@ export function renderBranchTree(
   }
 
   const root = d3.hierarchy<BranchNode>(treeData)
-  const layout = d3.tree<BranchNode>().nodeSize([40, 200])
+  const layout = d3.tree<BranchNode>().nodeSize([48, 220])
   const treeRoot = layout(root)
 
   const minX = d3.min(treeRoot.descendants(), d => d.x) ?? 0
   const maxX = d3.max(treeRoot.descendants(), d => d.x) ?? 0
+  const maxLabelLength = d3.max(treeRoot.descendants(), d => d.data.label.length) ?? 8
+  const maxY = d3.max(treeRoot.descendants(), d => d.y) ?? 0
+  const estimatedLabelWidth = maxLabelLength * 7 + 36
+  const requiredWidth = Math.max(width, 80 + maxY + estimatedLabelWidth)
+
+  svg.attr('width', requiredWidth)
+    .attr('viewBox', `0 0 ${requiredWidth} ${height}`)
+
   const translateX = 80
   const translateY = (height - (maxX - minX)) / 2 - minX
 

@@ -35,8 +35,12 @@ api.interceptors.response.use(
   async (err) => {
     syncApiLoading(-1)
     const original = err.config
+    const isAuthEndpoint = typeof original?.url === 'string' &&
+      ['/api/auth/login', '/api/auth/register', '/api/auth/oauth', '/api/auth/refresh']
+        .some(path => original.url.includes(path))
+
     if (err.response?.status === 401 &&
-        err.response?.data?.code === 'TOKEN_EXPIRED' &&
+        !isAuthEndpoint &&
         !original._retry) {
       original._retry = true
       if (refreshing) {

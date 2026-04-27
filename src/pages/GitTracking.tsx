@@ -196,7 +196,7 @@ export default function GitTracking() {
   }, [])
 
   const actions = (
-    <div style={{ display: 'flex', gap: 8 }}>
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
       {tabs.map(tab => {
         const Icon = tab.icon
         return (
@@ -285,7 +285,7 @@ export default function GitTracking() {
     )
   }, [activeTab, branches, commits, contributors, fileTree, handleBranchSelect, handleCommitSelect, handleContributorSelect, handlePRSelect])
 
-  const showSideDetail = activeTab !== 'activity' && activeTab !== 'heatmap'
+  const showSideDetail = activeTab !== 'activity' && activeTab !== 'heatmap' && activeTab !== 'branches'
 
   const detailPanel = selectedCommit ? (
     <CommitDetail commit={selectedCommit} />
